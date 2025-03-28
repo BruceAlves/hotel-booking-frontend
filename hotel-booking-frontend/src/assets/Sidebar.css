@@ -1,0 +1,106 @@
+/* Sidebar.css */
+.navbar {
+  width: 100%;
+  height: 80px;
+  background-color: #003580;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+/* Logo */
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+}
+
+/* Container do menu */
+.menu-container {
+  position: relative;
+  display: inline-block;
+  flex-grow: 1; /* Permite que o menu container ocupe o espaço restante */
+  margin-left: 20px; /* Espaçamento entre a logo e o menu */
+}
+
+/* Ícone do menu responsivo (visível no mobile) */
+.menu-toggle {
+  display: none; /* Esconde por padrão */
+  cursor: pointer;
+}
+
+.menu {
+  display: flex;
+  gap: 2px; /* Diminui o espaço entre os itens do menu */
+  align-items: center;
+  white-space: nowrap;
+  margin-left: 200px; /* Empurra o menu para a direita */
+}
+
+/* Botões do menu */
+.menu button {
+  background-color: transparent;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  color: white;
+  font-size: 14px; /* Tamanho da fonte */
+  cursor: pointer;
+  padding: 4px 40px; /* Diminui o padding para um tamanho menor */
+  display: inline-flex;
+  align-items: center;
+  gap: 2px; /* Espaço entre o texto e o ícone */
+  margin: 0; /* Remove a margem para que não haja espaço extra */
+  transition: 0.3s;
+  white-space: nowrap;
+  min-width: 0; /* Permite que o botão não tenha um tamanho mínimo */
+  width: auto; /* Ajusta a largura do botão conforme o conteúdo */
+}
+
+.menu button.selected {
+  border: 2px solid white;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.menu button:hover {
+  background-color: white;
+  color: #003580;
+}
+
+/* Estilo específico para o botão de logout */
+.logout {
+  margin-left: 50; /* Espaço à esquerda do botão de logout */
+}
+
+/* Responsividade: Ajustes para o menu responsivo */
+@media (max-width: 768px) {
+  .menu-toggle {
+      display: block; /* Mostra o ícone do menu hamburger apenas em telas pequenas */
+      margin-left: auto; /* Alinha à direita */
+  }
+
+  .menu {
+    display: none; /* O menu fica escondido por padrão */
+    flex-direction: column; /* Empilha os itens verticalmente */
+    position: absolute;
+    top: 55px; /* Abaixo da navbar */
+    background-color: #003580;
+    padding: 5px 0;
+    align-items: center; /* Centraliza os itens do menu */
+    gap: 5px;
+    width: 100%; 
+  }
+
+  .menu.open {
+      display: flex; 
+  }
+
+  .menu button {
+      width: 100%; 
+      justify-content: center; 
+      padding: 10px;
+  }
+}

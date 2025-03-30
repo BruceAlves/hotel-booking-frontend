@@ -1,24 +1,4 @@
-/* Estilização do container principal */
-.hospedagem-container {
-    margin-top: 90px;
-    padding: 20px;
-    margin-right: 50px;
-}
-
-/* Grid de cards */
-.cards-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    /* 5 cards por linha no desktop */
-    gap: 40px;
-    /* Espaçamento entre os cards */
-    justify-content: center;
-    /* Centraliza os cards */
-    max-width: 1400px;
-    /* Largura máxima do container */
-    margin: 0 auto;
-    /* Centraliza o container na página */
-}
+/* src/assets/Card.css */
 
 /* Estilização dos cards */
 .card {
@@ -70,45 +50,4 @@
     /* Muda o cursor para indicar que é clicável */
     margin-top: auto;
     /* Garante que o botão fique na base do card */
-}
-
-/* src/assets/Home.css (ou um arquivo CSS separado para a modal) */
-
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    /* Tamanho da modal */
-    position: relative;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-
-/* 🔥 Responsividade: No mobile, os cards ficam empilhados */
-@media (max-width: 768px) {
-    .cards-container {
-        grid-template-columns: 1fr;
-        /* Um card por linha */
-    }
 }

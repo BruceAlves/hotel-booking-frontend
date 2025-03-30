@@ -1,0 +1,119 @@
+/* src/pages/Payment.css */
+.payment-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Centraliza o conteúdo na horizontal */
+}
+
+.cartao-form,
+.cartao-info {
+    margin-top: 20px;
+}
+
+input {
+    display: block;
+    margin: 10px 0;
+    padding: 8px;
+    width: 100%;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.cartao-personalizado {
+    margin-top: 20px;
+    perspective: 1000px;
+    /* Para efeito 3D */
+    height: 200px;
+    /* Altura do cartão */
+    display: flex;
+    justify-content: center;
+    /* Centraliza o cartão horizontalmente */
+    align-items: center;
+    /* Centraliza o cartão verticalmente */
+}
+
+.cartao {
+    width: 400px;
+    /* Largura realista para um cartão de crédito */
+    height: 240px;
+    /* Altura realista para um cartão de crédito */
+    background-color: #000;
+    /* Cartão totalmente preto */
+    border-radius: 10px;
+    color: white;
+    padding: 20px;
+    /* Padding geral do cartão */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Centraliza o conteúdo verticalmente */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    transition: transform 0.6s;
+    /* Animação para transformação */
+}
+
+.cartao-frente {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* Estilos para diferentes tipos de cartões */
+.cartao-visa {
+    background-color: #1a73e8;
+    /* Azul para Visa */
+}
+
+.cartao-mastercard {
+    background-color: #ff5f00;
+    /* Laranja para MasterCard */
+}
+
+.cartao-american-express {
+    background-color: #2b7c2c;
+    /* Verde para American Express */
+}
+
+.cartao-discover {
+    background-color: #f36f00;
+    /* Vermelho para Discover */
+}
+
+.cartao-default {
+    background-color: #1e1e1e;
+    /* Cor padrão */
+}
+
+.numero {
+    font-size: 2em;
+    /* Aumentando o tamanho da fonte para o número do cartão */
+    letter-spacing: 2px;
+}
+
+.nome {
+    font-size: 1.2em;
+    /* Aumentando o tamanho da fonte para o nome */
+    margin: 5px 0;
+    /* Margem reduzida para melhor espaçamento */
+}
+
+.validade {
+    font-size: 1em;
+    /* Aumentando o tamanho da fonte para a validade */
+    margin: 5px 0;
+    /* Margem reduzida para melhor espaçamento */
+}
+
+.bandeira-cartao {
+    width: 50px;
+    /* Ajuste o tamanho conforme necessário */
+    height: auto;
+    margin-bottom: 10px;
+    /* Espaço abaixo da bandeira */
+}

@@ -1,0 +1,69 @@
+.reservas-container {
+    background-color: rgba(252, 252, 252, 0.9);
+    color: black;
+    padding: 40px;
+    border-radius: 12px;
+    max-width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Título */
+.reservas-titulo {
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 120px;
+}
+
+/* Container para alinhar imagem e formulário */
+.reserva-content {
+    display: flex;
+    width: 80%;
+    max-width: 1200px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Estilização da descrição */
+.reserva-info {
+    flex: 1;
+    max-width: 45%;
+    min-height: 350px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.reserva-info img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+/* Estilização do formulário */
+.reserva-form {
+    flex: 3;
+    max-width: 45%;
+    min-height: 350px;
+    background-color: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Efeito hover para criar sensação de profundidade */
+.reserva-info:hover,
+.reserva-form:hover {
+    transform: translateY(-5px);
+    box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.25);
+}

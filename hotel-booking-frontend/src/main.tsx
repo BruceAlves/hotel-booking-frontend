@@ -26,8 +26,8 @@ root.render(
                 <Route path="/voos" element={<PrivateRoute><Navbar /><Voos /></PrivateRoute>} />
                 <Route path="/carros" element={<PrivateRoute><Navbar /><Cars /></PrivateRoute>} />
                 <Route path="/pacotes" element={<PrivateRoute><Navbar /><Packages /></PrivateRoute>} />
-                <Route path="/reservas" element={<PrivateRoute><Reservas /></PrivateRoute>} />
-                <Route path="/pagamento" element={<PrivateRoute><Payment /></PrivateRoute>} /> {/* Corrigindo a rota */}
+                <Route path="/reservas" element={<PrivateRoute><Navbar /><Reservas /></PrivateRoute>} />
+                <Route path="/pagamento" element={<PrivateRoute><Navbar /><Payment /></PrivateRoute>} /> {/* Corrigindo a rota */}
                 <Route path="/register" element={<Register />} />
             </Routes>
         </Router>

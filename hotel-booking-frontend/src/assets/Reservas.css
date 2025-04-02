@@ -1,10 +1,11 @@
+/* Container principal */
 .reservas-container {
     background-color: rgba(252, 252, 252, 0.9);
     color: black;
     padding: 40px;
     border-radius: 12px;
     max-width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -20,50 +21,88 @@
     margin-top: 120px;
 }
 
-/* Container para alinhar imagem e formulário */
-.reserva-content {
+/* Seção de imagens e formulário lado a lado */
+.reserva-conteudo {
     display: flex;
     width: 80%;
     max-width: 1200px;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
+    gap: 30px;
+    justify-content: center;
+    align-items: flex-start;
 }
 
-/* Estilização da descrição */
+/* Imagens à esquerda */
 .reserva-info {
-    flex: 1;
-    max-width: 45%;
-    min-height: 350px;
+    width: 50%;
+    text-align: center;
     background-color: white;
     padding: 20px;
     border-radius: 12px;
-    text-align: center;
-    font-weight: bold;
     box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
-.reserva-info img {
+/* Imagem principal */
+.reserva-imagem-principal {
     width: 100%;
+    max-height: 350px;
+    object-fit: cover;
     border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
 }
 
-/* Estilização do formulário */
+.reserva-imagem-principal:hover {
+    transform: scale(1.02);
+}
+
+/* Miniaturas */
+.miniaturas-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.reserva-imagem-miniatura {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, border 0.2s ease-in-out;
+    border: 3px solid transparent;
+}
+
+.reserva-imagem-miniatura:hover {
+    transform: scale(1.1);
+}
+
+.reserva-imagem-miniatura.selecionada {
+    border: 3px solid #0071c2;
+}
+
+/* Formulário à direita */
 .reserva-form {
-    flex: 3;
-    max-width: 45%;
-    min-height: 350px;
+    width: 45%;
+    height: 330px;
     background-color: white;
-    padding: 35px;
+    padding: 50px;
     border-radius: 12px;
     box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    text-align: center;
 }
 
-/* Efeito hover para criar sensação de profundidade */
-.reserva-info:hover,
-.reserva-form:hover {
-    transform: translateY(-5px);
-    box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.25);
+/* Descrição abaixo */
+.descricao-container {
+    width: 80%;
+    max-width: 1200px;
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.15);
+    font-size: 1.2rem;
+
 }

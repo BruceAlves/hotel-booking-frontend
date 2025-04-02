@@ -1,18 +1,16 @@
-// src/pages/Reservas.tsx
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importando useNavigate
-import '../assets/Reservas.css'; // Importando os estilos
+import { useNavigate } from 'react-router-dom';
+import '../assets/Reservas.css';
 
 const Reservas: React.FC = () => {
-    const queryParams = new URLSearchParams(window.location.search); // Para obter os parâmetros da URL
-    const navigate = useNavigate(); // Hook para navegação
+    const queryParams = new URLSearchParams(window.location.search);
+    const navigate = useNavigate();
 
-    // Obtém os dados da oferta da URL
     const selectedOffer = {
         categoria: queryParams.get('categoria') ?? '',
         descricao: queryParams.get('descricao') ?? '',
         preco: Number(queryParams.get('preco')) || 0,
-        imagem: queryParams.get('imagem') ?? '',
+        imagens: queryParams.get('imagens')?.split(',') || []
     };
 
     const [checkInDate, setCheckInDate] = useState('');
@@ -20,10 +18,10 @@ const Reservas: React.FC = () => {
     const [quantity, setQuantity] = useState(1);
     const [totalCost, setTotalCost] = useState(0);
     const [errorMessage, setErrorMessage] = useState('');
+    const [imagemSelecionada, setImagemSelecionada] = useState(selectedOffer.imagens[0]);
 
-    // Calcula o custo total quando as datas ou a quantidade mudam
     useEffect(() => {
-        if (checkInDate && checkOutDate && selectedOffer) {
+        if (checkInDate && checkOutDate) {
             const checkIn = new Date(checkInDate);
             const checkOut = new Date(checkOutDate);
             const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 3600 * 24));
@@ -42,7 +40,6 @@ const Reservas: React.FC = () => {
     }, [checkInDate, checkOutDate, selectedOffer, quantity]);
 
     const handleConfirmarReserva = () => {
-        // Redireciona para o componente Payment com as informações necessárias
         navigate('/pagamento', {
             state: {
                 descricao: selectedOffer.descricao,
@@ -55,12 +52,29 @@ const Reservas: React.FC = () => {
     return (
         <div className="reservas-container">
             <h2 className="reservas-titulo">{selectedOffer.categoria}</h2>
-            <div className="reserva-content">
+
+            <div className="reserva-conteudo">
+                {/* Imagens à esquerda */}
                 <div className="reserva-info">
-                    <img src={selectedOffer.imagem} alt={selectedOffer.categoria} />
-                    <p>{selectedOffer.descricao}</p>
-                    <p>Preço por noite: R$ {selectedOffer.preco.toFixed(2)}</p>
+                    <img
+                        src={imagemSelecionada}
+                        alt={selectedOffer.categoria}
+                        className="reserva-imagem-principal"
+                    />
+                    <div className="miniaturas-container">
+                        {selectedOffer.imagens.map((img, index) => (
+                            <img
+                                key={index}
+                                src={img}
+                                alt={`Imagem ${index}`}
+                                className={`reserva-imagem-miniatura ${imagemSelecionada === img ? 'selecionada' : ''}`}
+                                onClick={() => setImagemSelecionada(img)}
+                            />
+                        ))}
+                    </div>
                 </div>
+
+                {/* Formulário à direita */}
                 <div className="reserva-form">
                     <label>
                         Check-in:
@@ -93,6 +107,12 @@ const Reservas: React.FC = () => {
                     <button onClick={handleConfirmarReserva}>Confirmar Reserva</button>
                     {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                 </div>
+            </div>
+
+            {/* Descrição abaixo da seção de imagens */}
+            <div className="descricao-container">
+                <p>{selectedOffer.descricao}</p>
+                <p>Preço por noite: R$ {selectedOffer.preco.toFixed(2)}</p>
             </div>
         </div>
     );

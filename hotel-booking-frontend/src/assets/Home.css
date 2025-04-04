@@ -2,17 +2,15 @@
     max-width: 1200px;
     padding: 80px 20px 0 20px;
     margin: 0 auto;
-    /* Centraliza a div na tela */
+
 }
 
-/* Alinhando os textos à esquerda */
 h1,
 p,
 h2 {
     text-align: left;
 }
 
-/* Estilos para Destinos */
 .destinos-container {
     margin-top: 30px;
 }
@@ -22,7 +20,6 @@ h2 {
     margin-left: 10px;
 }
 
-/* Grid de Destinos */
 .destinos-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -30,7 +27,6 @@ h2 {
     max-width: 100%;
 }
 
-/* Ajustando tamanhos para imitar o Booking */
 .destinos-top {
     display: flex;
     gap: 15px;
@@ -43,7 +39,6 @@ h2 {
     grid-column: span 3;
 }
 
-/* Estilizando os cards */
 .destino-card {
     position: relative;
     overflow: hidden;
@@ -59,7 +54,7 @@ h2 {
     object-fit: cover;
 }
 
-/* Tamanhos corrigidos para alinhamento exato */
+
 .destino-card.maior {
     width: 50%;
 }
@@ -68,7 +63,6 @@ h2 {
     width: 40%;
 }
 
-/* Ajustando alinhamento do texto dentro dos cards */
 .destino-info {
     position: absolute;
     bottom: 10px;
@@ -81,7 +75,6 @@ h2 {
     font-weight: bold;
 }
 
-/* Ofertas */
 .ofertas-container {
     margin-top: 40px;
 }

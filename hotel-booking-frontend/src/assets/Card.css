@@ -1,53 +1,28 @@
-/* src/assets/Card.css */
-
-/* Estilização dos cards */
 .card {
     border: 1px solid #ccc;
-    /* Borda dos cards */
     padding: 15px;
-    /* Espaçamento interno do card */
     border-radius: 8px;
-    /* Bordas arredondadas */
     text-align: center;
-    /* Alinha o texto ao centro */
     width: 100%;
-    /* Faz com que o card ocupe a largura total do seu container */
     display: flex;
-    /* Permite usar flexbox dentro do card */
     flex-direction: column;
-    /* Alinha os elementos verticalmente */
     justify-content: space-between;
-    /* Espalha os elementos dentro do card */
     min-height: 280px;
-    /* Mantém a altura igual nos cards */
     background-color: white;
-    /* Cor de fundo do card para destacar */
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    /* Sombra sutil para separar os cards */
 }
 
-/* Imagem do card */
 .card img {
     width: 100%;
-    /* A imagem ocupa a largura total do card */
     border-radius: 8px;
-    /* Bordas arredondadas para a imagem */
 }
 
-/* Botão dentro do card */
 .card button {
     padding: 10px;
-    /* Espaçamento interno do botão */
     background-color: #007bff;
-    /* Cor de fundo do botão */
     color: #fff;
-    /* Cor do texto do botão */
     border: none;
-    /* Remove a borda padrão do botão */
     border-radius: 5px;
-    /* Bordas arredondadas do botão */
     cursor: pointer;
-    /* Muda o cursor para indicar que é clicável */
     margin-top: auto;
-    /* Garante que o botão fique na base do card */
 }

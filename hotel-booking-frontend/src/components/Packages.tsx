@@ -1,4 +1,4 @@
-// src/components/Hospedagem.tsx
+
 import React, { useState, useEffect } from 'react';
 import '../assets/Hospedagem.css';
 
@@ -6,16 +6,15 @@ const Hospedagem: React.FC = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
-    const [selectedHotel, setSelectedHotel] = useState<any>(null); // Armazenar o hotel selecionado
-    const [totalCost, setTotalCost] = useState(0); // Custo total
-    const [errorMessage, setErrorMessage] = useState(''); // Mensagem de erro
-
+    const [selectedHotel, setSelectedHotel] = useState<any>(null);
+    const [totalCost, setTotalCost] = useState(0);
+    const [errorMessage, setErrorMessage] = useState('');
     const hospedagens = [
         {
             nome: 'Hotel Luxo',
             descricao: 'Um hotel de luxo com vista para o mar.',
             imagem: 'https://media.staticontent.com/media/pictures/084fd283-6047-4a40-a119-0f64381377d2/300x200',
-            preco: 400, // Preço por noite
+            preco: 400,
         },
         {
             nome: 'Pousada Tranquila',
@@ -45,14 +44,14 @@ const Hospedagem: React.FC = () => {
 
     const handleCloseModal = () => {
         setModalOpen(false);
-        setCheckInDate(''); // Limpa o campo de Check-in
-        setCheckOutDate(''); // Limpa o campo de Check-out
-        setTotalCost(0); // Limpa o custo total
-        setSelectedHotel(null); // Limpa o hotel selecionado
-        setErrorMessage(''); // Limpa a mensagem de erro
+        setCheckInDate('');
+        setCheckOutDate('');
+        setTotalCost(0);
+        setSelectedHotel(null);
+        setErrorMessage('');
     };
 
-    // Calcula o total sempre que as datas forem alteradas
+
     useEffect(() => {
         if (checkInDate && checkOutDate) {
             const checkIn = new Date(checkInDate);
@@ -60,21 +59,21 @@ const Hospedagem: React.FC = () => {
             const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 3600 * 24)); // Calcular noites
 
             if (nights > 0) {
-                const cost = nights * selectedHotel?.preco; // Calcular o custo total
-                setTotalCost(cost); // Atualiza o custo total
-                setErrorMessage(''); // Limpa a mensagem de erro
+                const cost = nights * selectedHotel?.preco;
+                setTotalCost(cost);
+                setErrorMessage('');
             } else {
-                setTotalCost(0); // Reseta o custo se a data de check-out for anterior à data de check-in
+                setTotalCost(0);
             }
         } else {
-            setTotalCost(0); // Reseta o custo se as datas não estiverem definidas
+            setTotalCost(0);
         }
-    }, [checkInDate, checkOutDate, selectedHotel]); // Executa sempre que as datas ou hotel mudarem
+    }, [checkInDate, checkOutDate, selectedHotel]);
 
     const handleSelectHotel = (hospedagem: any) => {
-        setSelectedHotel(hospedagem); // Armazena o hotel selecionado
-        setModalOpen(true); // Abre o modal
-        setTotalCost(hospedagem.preco); // Define o custo total inicial como o preço de uma noite
+        setSelectedHotel(hospedagem);
+        setModalOpen(true);
+        setTotalCost(hospedagem.preco);
     };
 
     return (
@@ -94,7 +93,7 @@ const Hospedagem: React.FC = () => {
                 ))}
             </div>
 
-            {/* Modal para seleção de datas */}
+
             {modalOpen && (
                 <div className="modal">
                     <div className="modal-content">
@@ -117,7 +116,7 @@ const Hospedagem: React.FC = () => {
                             />
                         </label>
                         {errorMessage && (
-                            <p style={{ color: 'red' }}>{errorMessage}</p> // Mensagem de erro se a data de check-in não for preenchida
+                            <p style={{ color: 'red' }}>{errorMessage}</p>
                         )}
                         <p style={{ marginTop: '20px' }}>Custo total: R$ {totalCost},00</p>
                         <button onClick={handleCloseModal}>Confirmar</button>

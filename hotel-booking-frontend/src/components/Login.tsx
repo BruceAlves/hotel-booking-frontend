@@ -6,36 +6,36 @@ import { setUser } from '../actions/userActions';
 import '../assets/Login.css';
 
 const Login: React.FC = () => {
-    const [email, setEmail] = useState<string>(''); 
-    const [password, setPassword] = useState<string>(''); 
-    const [error, setError] = useState<string>(''); 
-    const navigate = useNavigate(); 
-    const dispatch = useDispatch(); 
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string>('');
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
 
-            const data = await loginUser('', email, password); 
-            console.log('Tela de login:', data); 
+            const data = await loginUser('', email, password);
+            console.log('Tela de login:', data);
 
             if (data && data.token) {
-                localStorage.setItem('token', data.token); 
-                dispatch(setUser({ 
-                    username: data.username, 
-                    email: data.email, 
-                    token: data.token 
+                localStorage.setItem('token', data.token);
+                dispatch(setUser({
+                    username: data.username,
+                    email: data.email,
+                    token: data.token
                 }));
 
-                setEmail(''); 
-                setPassword(''); 
-                navigate('/home', { replace: true }); 
+                setEmail('');
+                setPassword('');
+                navigate('/home', { replace: true });
             } else {
                 setError(data.message || 'Erro ao fazer login');
             }
         } catch (error) {
-            setError('Erro na requisição'); 
+            setError('Erro na requisição');
             console.error('Erro ao fazer login:', error);
         }
     };
@@ -50,7 +50,7 @@ const Login: React.FC = () => {
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Digite seu e-mail"
+                        placeholder="E-mail"
                         required
                     />
                 </div>
@@ -60,7 +60,7 @@ const Login: React.FC = () => {
                         id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        placeholder="Digite sua senha"
+                        placeholder="Senha"
                         required
                     />
                 </div>

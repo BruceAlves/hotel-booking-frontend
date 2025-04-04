@@ -1,6 +1,5 @@
-// src/pages/Payment.tsx
 import React, { useState } from 'react';
-import '../assets/Payment.css'; // Importando o CSS para estilização
+import '../assets/Payment.css';
 
 const Payment: React.FC = () => {
     const [metodoPagamento, setMetodoPagamento] = useState<string>('pix');
@@ -10,68 +9,62 @@ const Payment: React.FC = () => {
         validade: ''
     });
     const [cartaoPreenchido, setCartaoPreenchido] = useState<boolean>(false);
-    const [numeroCartaoValido, setNumeroCartaoValido] = useState<boolean>(true); // Estado para validar o número do cartão
+    const [numeroCartaoValido, setNumeroCartaoValido] = useState<boolean>(true);
 
     const handleMetodoPagamentoChange = (metodo: string) => {
         setMetodoPagamento(metodo);
-        setCartaoInfo({ numero: '', nome: '', validade: '' }); // Limpa os dados do cartão ao mudar o método
+        setCartaoInfo({ numero: '', nome: '', validade: '' });
         setCartaoPreenchido(false);
     };
 
     const handleCartaoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-
-        let formattedValue = value.replace(/\D/g, '') // Remove caracteres não numéricos
-            .replace(/(\d{4})(?=\d)/g, '$1 ') // Adiciona espaço a cada 4 dígitos
-            .trim(); // Remove espaço em branco no final
-
+        let formattedValue = value.replace(/\D/g, '')
+            .replace(/(\d{4})(?=\d)/g, '$1 ')
+            .trim();
         setCartaoInfo({ ...cartaoInfo, [name]: formattedValue });
 
-        // Valida o número do cartão
         if (name === 'numero') {
-            const cleanValue = formattedValue.replace(/\D/g, ''); // Remove formatação
+            const cleanValue = formattedValue.replace(/\D/g, '');
             setNumeroCartaoValido(cleanValue.length <= 16);
         }
 
-        setCartaoPreenchido(true); // Marca que o cartão foi preenchido
+        setCartaoPreenchido(true);
     };
 
     const handleFinalizarPagamento = () => {
-        // Lógica para finalizar o pagamento
         console.log('Pagamento finalizado com sucesso!');
         console.log('Detalhes do pagamento:', cartaoInfo);
     };
 
-    // Função para determinar a classe do cartão com base no número
     const getCartaoClass = () => {
         const numero = cartaoInfo.numero;
 
         if (numero.startsWith('4')) {
-            return 'cartao-visa'; // Azul para Visa
+            return 'cartao-visa';
         } else if (/^5[1-5]/.test(numero)) {
-            return 'cartao-mastercard'; // Laranja para MasterCard
+            return 'cartao-mastercard';
         } else if (/^3[47]/.test(numero)) {
-            return 'cartao-american-express'; // Verde para American Express
+            return 'cartao-american-express';
         } else if (/^6(?:011|4[4-9]|5)/.test(numero)) {
-            return 'cartao-discover'; // Vermelho para Discover
+            return 'cartao-discover';
         } else {
-            return 'cartao-default'; // Cor padrão
+            return 'cartao-default';
         }
     };
 
-    // Função para obter a imagem da bandeira do cartão
     const getBandeiraCartao = () => {
         const numero = cartaoInfo.numero;
         if (numero.startsWith('4')) {
-            return 'https://logospng.org/wp-content/uploads/visa.png'; // Bandeira do Visa
+            return 'https://logospng.org/wp-content/uploads/visa.png';
         } else if (/^5[1-5]/.test(numero)) {
-            return 'https://logospng.org/wp-content/uploads/mastercard.jpg'; // Bandeira do MasterCard
+            return 'https://logospng.org/wp-content/uploads/mastercard.jpg';
         } else if (/^3[47]/.test(numero)) {
-            return 'https://logospng.org/wp-content/uploads/amex.png'; // Bandeira da American Express
+            return 'https://logospng.org/wp-content/uploads/amex.png';
         } else if (/^6(?:011|4[4-9]|5)/.test(numero)) {
-            return 'https://logospng.org/wp-content/uploads/discover.png'; // Bandeira do Discover
+            return 'https://logospng.org/wp-content/uploads/discover.png';
         } else {
-            return ''; // Nenhuma bandeira
+            return '';
         }
     };
 

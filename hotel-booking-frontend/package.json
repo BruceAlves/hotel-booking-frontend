@@ -10,11 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.779.0",
+    "@aws-sdk/client-s3": "^3.782.0",
+    "@aws-sdk/credential-provider-cognito-identity": "^3.782.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@radix-ui/react-slot": "^1.1.2",
     "@reduxjs/toolkit": "^2.6.1",
+    "@types/aws-sdk": "^0.0.42",
+    "aws-sdk": "^2.1692.0",
     "dotenv": "^16.4.7",
     "framer-motion": "^12.6.2",
     "lucide-react": "^0.483.0",

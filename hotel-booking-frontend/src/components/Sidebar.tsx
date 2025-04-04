@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { BedDouble, Plane, Car, Package, LogOut, Menu, LayoutGrid  } from 'lucide-react';
+import { BedDouble, Plane, Car, Package, LogOut, Menu, LayoutGrid } from 'lucide-react';
 import '../assets/Sidebar.css';
 
 const Navbar: React.FC = () => {
@@ -12,7 +12,7 @@ const Navbar: React.FC = () => {
   const handleNavigate = (path: string) => {
     setSelected(path);
     navigate(path);
-    setMenuOpen(false); // Fecha o menu ao navegar
+    setMenuOpen(false);
   };
 
   const handleLogout = () => {
@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
 
   return (
     <nav className="navbar">
-      <div className="logo">Booking</div>
+      <div className="logo">Booking Easy</div>
       <div className="menu-container">
         <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
           <Menu size={28} color="white" />
@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
             </button>
           ))}
 
-          <button  className="logout" onClick={handleLogout}>
+          <button className="logout" onClick={handleLogout}>
             <LogOut size={20} /> Sair
           </button>
         </div>

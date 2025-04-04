@@ -5,8 +5,8 @@ interface CardProps {
     imagem: string;
     titulo: string;
     descricao: string;
-    preco?: number; // Preço é opcional, já que nem todos os cards podem ter um preço
-    onClick?: () => void; // Função para tratar o clique no botão
+    preco?: number;
+    onClick?: () => void;
 }
 
 const Card: React.FC<CardProps> = ({ imagem, titulo, descricao, preco, onClick }) => {

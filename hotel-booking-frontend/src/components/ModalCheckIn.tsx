@@ -1,15 +1,14 @@
 
 import React from 'react';
-import '../assets/ModalCheckIn.css'; // Você pode estilizar o modal como desejar
-
+import '../assets/ModalCheckIn.css';
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
-    children: React.ReactNode; // Permite passar conteúdo para o modal
+    children: React.ReactNode;
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-    if (!isOpen) return null; // Se o modal não estiver aberto, não renderiza nada
+    if (!isOpen) return null;
 
     return (
         <div className="modal-overlay" onClick={onClose}>

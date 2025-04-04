@@ -1,7 +1,7 @@
 // src/pages/Home.tsx
 import React, { useState } from 'react';
 import useUser from '../hooks/useUser';
-import Card from '../components/Card'; // Importa o novo componente Card
+import Card from '../components/Card';
 import '../assets/Voos.css';
 
 const Home: React.FC = () => {
@@ -10,7 +10,7 @@ const Home: React.FC = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
-    const [selectedOffer, setSelectedOffer] = useState<any>(null); // Para armazenar a oferta selecionada
+    const [selectedOffer, setSelectedOffer] = useState<any>(null);
 
     const ofertas = [
         { categoria: 'Voos', descricao: 'Passagens aéreas com até 40% de desconto!', imagem: 'https://media.staticontent.com/media/pictures/084fd283-6047-4a40-a119-0f64381377d2/300x200' },
@@ -44,12 +44,11 @@ const Home: React.FC = () => {
                         imagem={oferta.imagem}
                         titulo={oferta.categoria}
                         descricao={oferta.descricao}
-                        onClick={() => handleSelectOffer(oferta)} // Chama a função para abrir a modal
+                        onClick={() => handleSelectOffer(oferta)}
                     />
                 ))}
             </div>
 
-            {/* Modal para seleção de datas */}
             {modalOpen && selectedOffer && (
                 <div className="modal">
                     <div className="modal-content">

@@ -1,4 +1,3 @@
-/* Container principal */
 .reservas-container {
     background-color: rgba(252, 252, 252, 0.9);
     color: black;
@@ -11,7 +10,7 @@
     align-items: center;
 }
 
-/* Título */
+
 .reservas-titulo {
     width: 100%;
     text-align: center;
@@ -21,7 +20,6 @@
     margin-top: 120px;
 }
 
-/* Seção de imagens e formulário lado a lado */
 .reserva-conteudo {
     display: flex;
     width: 80%;
@@ -31,9 +29,8 @@
     align-items: flex-start;
 }
 
-/* Imagens à esquerda */
 .reserva-info {
-    width: 50%;
+    width: 100%;
     text-align: center;
     background-color: white;
     padding: 20px;
@@ -41,7 +38,6 @@
     box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Imagem principal */
 .reserva-imagem-principal {
     width: 100%;
     max-height: 350px;
@@ -55,7 +51,6 @@
     transform: scale(1.02);
 }
 
-/* Miniaturas */
 .miniaturas-container {
     display: flex;
     justify-content: center;
@@ -82,18 +77,16 @@
     border: 3px solid #0071c2;
 }
 
-/* Formulário à direita */
 .reserva-form {
     width: 45%;
     height: 330px;
     background-color: white;
     padding: 50px;
     border-radius: 12px;
-    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.15);
     text-align: center;
 }
 
-/* Descrição abaixo */
+
 .descricao-container {
     width: 80%;
     max-width: 1200px;
@@ -102,7 +95,6 @@
     margin-top: 20px;
     border-radius: 12px;
     text-align: center;
-    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.15);
     font-size: 1.2rem;
 
 }

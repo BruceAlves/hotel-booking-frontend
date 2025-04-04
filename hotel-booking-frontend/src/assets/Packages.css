@@ -1,12 +1,9 @@
-/* src/assets/Hospedagem.css */
-
-/* Estilização do container principal */
 .hospedagem-container {
     margin-top: 90px;
     padding: 20px;
 }
 
-/* Grid de cards */
+
 .hospedagem-cards-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -28,13 +25,11 @@
     min-height: 280px;
 }
 
-/* Imagem do card */
 .hospedagem-card img {
     width: 100%;
     border-radius: 8px;
 }
 
-/* Botão dentro do card */
 .hospedagem-card button {
     padding: 10px;
     background-color: #007bff;
@@ -43,10 +38,9 @@
     border-radius: 5px;
     cursor: pointer;
     margin-top: auto;
-    /* Garante que o botão fique na base do card */
+
 }
 
-/* Modal Styles */
 .modal {
     position: fixed;
     top: 0;
@@ -65,7 +59,7 @@
     padding: 20px;
     border-radius: 8px;
     width: 400px;
-    /* Tamanho do modal */
+
     position: relative;
 }
 
@@ -77,10 +71,10 @@
     font-size: 20px;
 }
 
-/* 🔥 Responsividade: No mobile, os cards ficam empilhados */
+
 @media (max-width: 768px) {
     .hospedagem-cards-container {
         grid-template-columns: 1fr;
-        /* Um card por linha */
+
     }
 }

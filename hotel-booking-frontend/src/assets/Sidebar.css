@@ -1,58 +1,123 @@
 .navbar {
   width: 100%;
-  height: 80px;
+  height: 200px;
   background-color: #003580;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 20px;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
+  box-sizing: border-box;
+}
+
+.menu button.logout {
+  border: 2px solid #ff4d4d;
+  background-color: rgba(255, 77, 77, 0.2);
+  color: #ff4d4d;
+  font-weight: bold;
+  transition: 0.3s;
+  position: absolute;
+  top: -130px;
+  right: -350px;
+  width: 100px;
+  z-index: 1100;
+}
+
+/* Hover */
+.menu button.logout:hover {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.texto {
+  font-size: 24px;
+  color: #003580;
+  background-color: white;
+  width: fit-content;
+  max-width: 90%;
+  padding: 16px 24px;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: left;
+}
+
+.texto h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.texto p {
+  margin: 0;
+  font-size: 14px;
+}
+
+
+.logo-container {
+  background-color: white;
+  border-radius: 15px;
+  padding: 10px 20px;
+  display: inline-block;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* opcional para dar leve profundidade */
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  height: 20px;
 }
 
 .logo {
   font-size: 22px;
   font-weight: bold;
+  color: rgba(53, 50, 50, 0.8);
+  margin-top: -2px;
+}
+
+.usuario {
+  font-size: 20px;
+  font-weight: bold;
   color: white;
-}
-
-.menu-container {
-  position: relative;
-  display: inline-block;
-  flex-grow: 1;
-  margin-left: 10px;
-}
-
-.menu-toggle {
-  display: none;
-  cursor: pointer;
+  position: absolute;
+  top: 55px;
+  left: 20px;
+  margin-top: 100px;
 }
 
 .menu {
   display: flex;
-  gap: 2px;
   align-items: center;
-  white-space: nowrap;
-  margin-left: 200px;
+  gap: 8px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 130px;
 }
 
 .menu button {
   background-color: transparent;
   border: 2px solid transparent;
-  border-radius: 20px;
   color: white;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
-  padding: 4px 20px;
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  margin: 0;
+  padding: 4px 12px;
   transition: 0.3s;
+  display: flex;
+  align-items: center;
   white-space: nowrap;
-  min-width: 0;
-  width: auto;
+  gap: 4px;
+  border-radius: 15px;
 }
 
 .menu button.selected {
@@ -65,35 +130,127 @@
   color: #003580;
 }
 
-.logout {
-  margin-left: 50px;
+.menu button svg {
+  width: 16px;
+  height: 16px;
 }
 
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+
+}
+
+.auth button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 15px;
+  transition: 0.3s;
+}
+
+.auth button:hover {
+  background-color: white;
+  color: #003580;
+}
+
+.auth span {
+  color: white;
+  font-size: 16px;
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Responsivo */
 @media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-    margin-left: auto;
+  .navbar {
+    flex-wrap: nowrap;
+    flex-direction: row;
+    height: 60px;
+  }
+
+  .menu button.logout {
+    position: static !important;
+    margin: 0;
+    border: 2px solid #ff4d4d;
+    background-color: rgba(255, 77, 77, 0.2);
+    color: #ff4d4d;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 16px;
+  }
+
+
+  .texto {
+    display: none;
+  }
+
+  .logo-container {
+    margin-top: -12px;
+    height: 12px;
+  }
+
+  .logo {
+    margin-top: -4px;
   }
 
   .menu {
     display: none;
-    flex-direction: column;
     position: absolute;
-    top: 55px;
-    background-color: #003580;
-    padding: 5px 0;
-    align-items: center;
-    gap: 5px;
+    top: 80px;
+    left: 0;
     width: 100%;
+    flex-direction: column;
+    background-color: #003580;
+    align-items: center;
+    padding: 10px 0;
+    gap: 1px;
   }
 
   .menu.open {
     display: flex;
+    margin-left: 200px;
+    margin-top: -30px;
+  }
+
+  .menu-toggle {
+    display: block;
   }
 
   .menu button {
     width: 100%;
-    justify-content: center;
-    padding: 10px;
+    justify-content: flex-start;
+    padding-left: 16px;
+    width: 100%;
+  }
+
+  .auth {
+    flex-direction: row;
+    margin-left: 220px;
+    gap: 6px;
+  }
+
+  .auth span {
+    font-size: 14px;
+  }
+
+  .auth button {
+    font-size: 12px;
+    padding: 4px 8px;
+    margin-top: 10px;
   }
 }

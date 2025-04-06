@@ -42,7 +42,13 @@ const Home: React.FC = () => {
 
     return (
         <div className="home-container">
-            <h1>Olá, {user.username ? user.username : 'Usuário'}!</h1>
+            {!user.username ? (
+                <h2>Bem-vindo! Faça login para acessar suas informações.</h2>
+
+            ) : (
+                <h2>Olá, {user.username ? user.username : 'Usuário'}!</h2>
+            )}
+
             <div className="destinos-container">
                 <h2>Destinos mais procurados</h2>
                 <div className="destinos-grid">

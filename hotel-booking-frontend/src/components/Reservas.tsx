@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CreditCard, QrCode, Smartphone } from 'lucide-react';
+
 import '../assets/Reservas.css';
 
 const Reservas: React.FC = () => {
     const queryParams = new URLSearchParams(window.location.search);
+    const [formaPagamento, setFormaPagamento] = useState<string>('');
+
     const navigate = useNavigate();
 
     const selectedOffer = {
@@ -19,6 +23,7 @@ const Reservas: React.FC = () => {
     const [totalCost, setTotalCost] = useState(0);
     const [errorMessage, setErrorMessage] = useState('');
     const [imagemSelecionada, setImagemSelecionada] = useState(selectedOffer.imagens[0]);
+    // const [formasPagamento, setFormasPagamento] = useState<string[]>([]);
 
     useEffect(() => {
         if (checkInDate && checkOutDate) {
@@ -39,12 +44,14 @@ const Reservas: React.FC = () => {
         }
     }, [checkInDate, checkOutDate, selectedOffer, quantity]);
 
+
     const handleConfirmarReserva = () => {
         navigate('/pagamento', {
             state: {
                 descricao: selectedOffer.descricao,
                 preco: selectedOffer.preco,
                 totalCost: totalCost,
+                // formasPagamento: formasPagamento,
             },
         });
     };
@@ -103,6 +110,54 @@ const Reservas: React.FC = () => {
                             />
                         </label>
                     )}
+
+                    <div className="formas-pagamento">
+                        <div className="opcoes">
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="pagamento"
+                                    value="Pix"
+                                    checked={formaPagamento === 'Pix'}
+                                    onChange={() => setFormaPagamento('Pix')}
+                                />
+                                <span>
+                                    <QrCode size={18} />
+                                    Pix
+                                </span>
+                            </label>
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="pagamento"
+                                    value="Cartão"
+                                    checked={formaPagamento === 'Cartão'}
+                                    onChange={() => setFormaPagamento('Cartão')}
+                                />
+                                <span>
+                                    <CreditCard size={18} />
+                                    Cartão
+                                </span>
+                            </label>
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="pagamento"
+                                    value="App"
+                                    checked={formaPagamento === 'App'}
+                                    onChange={() => setFormaPagamento('App')}
+                                />
+                                <span>
+                                    <Smartphone size={18} />
+                                    App
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+
                     <p style={{ marginTop: '20px' }}>Custo total: R$ {totalCost.toFixed(2)}</p>
                     <button onClick={handleConfirmarReserva}>Confirmar Reserva</button>
                     {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}

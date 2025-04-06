@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 90px;
 }
 
 
@@ -33,9 +34,8 @@
     width: 100%;
     text-align: center;
     background-color: white;
-    padding: 20px;
+    padding: 8px;
     border-radius: 12px;
-    box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 .reserva-imagem-principal {
@@ -97,4 +97,66 @@
     text-align: center;
     font-size: 1.2rem;
 
+}
+
+.formas-pagamento {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+    flex-wrap: nowrap;
+    /* impede quebra */
+    overflow-x: auto;
+    /* adiciona scroll horizontal se necessário */
+    padding: 8px 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.formas-label {
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+    /* evita quebra de linha no texto */
+    font-size: 16px;
+    margin-right: 8px;
+}
+
+.opcoes {
+    display: flex;
+    gap: 12px;
+    flex-wrap: nowrap;
+    /* impede quebra dos itens */
+    white-space: nowrap;
+}
+
+.opcoes span {
+    display: flex;
+    align-items: center;
+    background-color: #f7f7f7;
+    border: 2px solid transparent;
+    padding: 10px 14px;
+    border-radius: 999px;
+    /* estilo redondo */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-size: 14px;
+    color: #333;
+    min-width: 100px;
+}
+
+.opcoes span svg {
+    margin-right: 6px;
+}
+
+.opcoes span.selecionado {
+    border-color: #0071c2;
+    /* cor do Booking */
+    background-color: #e6f0fa;
+    font-weight: 600;
+    color: #0071c2;
+}
+
+.opcoes span:hover {
+    background-color: #ebf3ff;
 }

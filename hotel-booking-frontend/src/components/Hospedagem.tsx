@@ -17,7 +17,7 @@ const Hospedagem: React.FC = () => {
                 preco: 100
             },
             {
-                categoria: 'São Paulo',
+                categoria: 'Hotel Fasano',
                 prefixo: 'hospedagensSp/',
                 descricao: 'Conheça o Hotel Fasano São Paulo, nos Jardins...',
                 preco: 120

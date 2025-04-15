@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CreditCard, QrCode, Smartphone } from 'lucide-react';
-
+import { CreditCard, QrCode, Smartphone, Users } from 'lucide-react';
 import '../assets/Reservas.css';
 
 const Reservas: React.FC = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const [formaPagamento, setFormaPagamento] = useState<string>('');
-
     const navigate = useNavigate();
 
     const selectedOffer = {
@@ -19,11 +17,56 @@ const Reservas: React.FC = () => {
 
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
-    const [quantity, setQuantity] = useState(1);
+    const [quantityAdults, setQuantityAdults] = useState(1);
+    const [quantityChildren, setQuantityChildren] = useState(0);
     const [totalCost, setTotalCost] = useState(0);
+
+    const [checkInError, setCheckInError] = useState('');
+    const [checkOutError, setCheckOutError] = useState('');
+    const [quantityAdultsError, setQuantityAdultsError] = useState('');
+    const [formaPagamentoError, setFormaPagamentoError] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+
     const [imagemSelecionada, setImagemSelecionada] = useState(selectedOffer.imagens[0]);
-    // const [formasPagamento, setFormasPagamento] = useState<string[]>([]);
+
+    // Função de validação dos campos
+    const validarCampos = () => {
+        let valid = true;
+
+        // Validar Check-in
+        if (!checkInDate) {
+            setCheckInError('Preencha a data de check-in.');
+            valid = false;
+        } else {
+            setCheckInError('');
+        }
+
+        // Validar Check-out
+        if (!checkOutDate) {
+            setCheckOutError('Preencha a data de check-out.');
+            valid = false;
+        } else {
+            setCheckOutError('');
+        }
+
+        // Validar Quantidade de Adultos
+        if (quantityAdults < 1) {
+            setQuantityAdultsError('Quantidade de adultos inválida.');
+            valid = false;
+        } else {
+            setQuantityAdultsError('');
+        }
+
+        // Validar Forma de Pagamento
+        if (!formaPagamento) {
+            setFormaPagamentoError('Selecione a forma de pagamento.');
+            valid = false;
+        } else {
+            setFormaPagamentoError('');
+        }
+
+        return valid;
+    };
 
     useEffect(() => {
         if (checkInDate && checkOutDate) {
@@ -32,28 +75,30 @@ const Reservas: React.FC = () => {
             const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 3600 * 24));
 
             if (nights > 0) {
-                const cost = nights * selectedOffer.preco * (selectedOffer.categoria === 'Hospedagem' ? quantity : 1);
+                const cost = nights * selectedOffer.preco * (selectedOffer.categoria === 'Hospedagem' ? (quantityAdults + quantityChildren * 0.5) : 1);
                 setTotalCost(cost);
                 setErrorMessage('');
             } else {
                 setTotalCost(0);
-                setErrorMessage('As datas selecionadas são inválidas.');
+                setErrorMessage('Datas inválidas.');
             }
         } else {
             setTotalCost(0);
         }
-    }, [checkInDate, checkOutDate, selectedOffer, quantity]);
-
+    }, [checkInDate, checkOutDate, selectedOffer, quantityAdults, quantityChildren]);
 
     const handleConfirmarReserva = () => {
-        navigate('/pagamento', {
-            state: {
-                descricao: selectedOffer.descricao,
-                preco: selectedOffer.preco,
-                totalCost: totalCost,
-                // formasPagamento: formasPagamento,
-            },
-        });
+        if (validarCampos()) {
+            navigate('/pagamento', {
+                state: {
+                    descricao: selectedOffer.descricao,
+                    preco: selectedOffer.preco,
+                    totalCost: totalCost,
+                },
+            });
+        } else {
+            setErrorMessage('Preencha todos os campos obrigatórios.');
+        }
     };
 
     return (
@@ -89,7 +134,9 @@ const Reservas: React.FC = () => {
                             type="date"
                             value={checkInDate}
                             onChange={(e) => setCheckInDate(e.target.value)}
+                            required
                         />
+                        {checkInError && <p className="erro-mensagem">{checkInError}</p>}
                     </label>
                     <label>
                         Check-out:
@@ -97,70 +144,76 @@ const Reservas: React.FC = () => {
                             type="date"
                             value={checkOutDate}
                             onChange={(e) => setCheckOutDate(e.target.value)}
+                            required
                         />
+                        {checkOutError && <p className="erro-mensagem">{checkOutError}</p>}
                     </label>
-                    {selectedOffer.categoria === 'Hospedagem' && (
-                        <label>
-                            Quantidade de Pessoas:
-                            <input
-                                type="number"
-                                min="1"
-                                value={quantity}
-                                onChange={(e) => setQuantity(Number(e.target.value))}
-                            />
-                        </label>
-                    )}
 
-                    <div className="formas-pagamento">
-                        <div className="opcoes">
+                    <div className="quantidade-pessoas-lado-a-lado">
+                        <div className="campo-quantidade">
                             <label>
+                                <Users size={24} style={{ marginRight: '8px' }} />
+                                Adultos:
                                 <input
-                                    type="radio"
-                                    name="pagamento"
-                                    value="Pix"
-                                    checked={formaPagamento === 'Pix'}
-                                    onChange={() => setFormaPagamento('Pix')}
+                                    type="number"
+                                    min="1"
+                                    value={quantityAdults}
+                                    onChange={(e) => setQuantityAdults(Number(e.target.value))}
+                                    required
+                                    className="quantidade-input"
                                 />
-                                <span>
-                                    <QrCode size={18} />
-                                    Pix
-                                </span>
                             </label>
-
+                            {quantityAdultsError && <p className="erro-mensagem">{quantityAdultsError}</p>}
+                        </div>
+                        <div className="campo-quantidade">
                             <label>
+                                <Users size={24} style={{ marginRight: '8px' }} />
+                                Crianças:
                                 <input
-                                    type="radio"
-                                    name="pagamento"
-                                    value="Cartão"
-                                    checked={formaPagamento === 'Cartão'}
-                                    onChange={() => setFormaPagamento('Cartão')}
+                                    type="number"
+                                    min="0"
+                                    value={quantityChildren}
+                                    onChange={(e) => setQuantityChildren(Number(e.target.value))}
+                                    className="quantidade-input"
                                 />
-                                <span>
-                                    <CreditCard size={18} />
-                                    Cartão
-                                </span>
-                            </label>
-
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="pagamento"
-                                    value="App"
-                                    checked={formaPagamento === 'App'}
-                                    onChange={() => setFormaPagamento('App')}
-                                />
-                                <span>
-                                    <Smartphone size={18} />
-                                    App
-                                </span>
                             </label>
                         </div>
+                    </div>
+
+                    <div className="formas-pagamento">
+
+                        <div className="opcoes">
+                            <span
+                                className={`opcao-pagamento ${formaPagamento === 'Pix' ? 'selecionado' : ''}`}
+                                onClick={() => setFormaPagamento('Pix')}
+                            >
+                                <QrCode size={24} />
+                                Pix
+                            </span>
+
+                            <span
+                                className={`opcao-pagamento ${formaPagamento === 'Cartão' ? 'selecionado' : ''}`}
+                                onClick={() => setFormaPagamento('Cartão')}
+                            >
+                                <CreditCard size={24} />
+                                Cartão
+                            </span>
+
+                            <span
+                                className={`opcao-pagamento ${formaPagamento === 'Pagamentos Digitais' ? 'selecionado' : ''}`}
+                                onClick={() => setFormaPagamento('Pagamentos Digitais')}
+                            >
+                                <Smartphone size={24} />
+                                Aplicativo
+                            </span>
+                        </div>
+                        {formaPagamentoError && <p className="erro-mensagem">{formaPagamentoError}</p>}
                     </div>
 
 
                     <p style={{ marginTop: '20px' }}>Custo total: R$ {totalCost.toFixed(2)}</p>
                     <button onClick={handleConfirmarReserva}>Confirmar Reserva</button>
-                    {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                    {errorMessage && <p className="erro-mensagem">{errorMessage}</p>}
                 </div>
             </div>
 

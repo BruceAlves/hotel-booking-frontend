@@ -1,5 +1,6 @@
 // src/components/Card.tsx
 import React from 'react';
+import '../assets/Card.css';
 
 interface CardProps {
     imagem: string;
@@ -16,7 +17,7 @@ const Card: React.FC<CardProps> = ({ imagem, titulo, descricao, preco, onClick }
             <h3>{titulo}</h3>
             <p>{descricao}</p>
             {preco !== undefined && <p>R$ {preco},00 por noite</p>}
-            <button onClick={onClick}>Ver Ofertas</button>
+            <button onClick={onClick}>Reservar</button>
         </div>
     );
 };

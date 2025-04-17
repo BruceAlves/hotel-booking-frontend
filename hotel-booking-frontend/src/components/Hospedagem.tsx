@@ -3,46 +3,42 @@ import useUser from '../hooks/useUser';
 import Card from '../components/Card';
 import '../assets/Hospedagem.css';
 import { listarImagens } from '../services/uploadToS3';
+import { listarHoteis } from '../services/api';
+import { Hotel } from '../types/hotel';
 
 const Hospedagem: React.FC = () => {
     const user = useUser();
-    const [ofertas, setOfertas] = useState<any[]>([]);
+    const [ofertas, setOfertas] = useState<{ name: string, categoria: string, descricao: string, imagens: string[], preco: number }[]>([]);
 
     useEffect(() => {
-        const destinos = [
-            {
-                categoria: 'Rio de Janeiro',
-                prefixo: 'hospedagens/',
-                descricao: 'Descubra o Emiliano Rio, um membro da Small Luxury Hotels...',
-                preco: 100
-            },
-            {
-                categoria: 'Hotel Fasano',
-                prefixo: 'hospedagensSp/',
-                descricao: 'Conheça o Hotel Fasano São Paulo, nos Jardins...',
-                preco: 120
+
+        const carregarHoteis = async () => {
+            try {
+                const hoteis: Hotel[] = await listarHoteis();
+
+                const ofertas = await Promise.all(hoteis.map(async (hotel: Hotel) => {
+                    const imagens = await listarImagens(hotel.pasta_imagem);
+
+                    return {
+                        name: hotel.nome,
+                        categoria: hotel.categoria,
+                        descricao: hotel.descricao,
+                        imagens,
+                        preco: hotel.preco
+                    };
+                }));
+
+                setOfertas(ofertas);
+            } catch (error) {
+                console.error('Erro ao carregar hotéis:', error);
             }
-        ];
-
-        const carregarImagens = async () => {
-            const ofertas = await Promise.all(destinos.map(async (destino) => {
-                const imagens = await listarImagens(destino.prefixo);
-                return {
-                    categoria: destino.categoria,
-                    descricao: destino.descricao,
-                    imagens,
-                    preco: destino.preco
-                };
-            }));
-
-            setOfertas(ofertas);
         };
 
-        carregarImagens();
+        carregarHoteis();
     }, []);
 
     const handleSelectOffer = (oferta: any) => {
-        const url = `/reservas?categoria=${encodeURIComponent(oferta.categoria)}&descricao=${encodeURIComponent(oferta.descricao)}&preco=${oferta.preco}&imagens=${encodeURIComponent(oferta.imagens.join(','))}`;
+        const url = `/reservas?categoria=${encodeURIComponent(oferta.name)}&descricao=${encodeURIComponent(oferta.descricao)}&preco=${oferta.preco}&imagens=${encodeURIComponent(oferta.imagens.join(','))}`;
         window.open(url, '_blank', 'noopener,noreferrer');
     };
 
@@ -56,7 +52,7 @@ const Hospedagem: React.FC = () => {
                     <Card
                         key={index}
                         imagem={oferta.imagens[0]}
-                        titulo={oferta.categoria}
+                        titulo={oferta.name}
                         descricao={`${oferta.descricao.slice(0, 200)}...`}
                         onClick={() => handleSelectOffer(oferta)}
                     />

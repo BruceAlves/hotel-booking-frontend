@@ -1,80 +1,52 @@
-// src/pages/Home.tsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useUser from '../hooks/useUser';
-import Card from '../components/Card';
+import CardVoo from '../components/CardVoo';
+import { listarVoos } from '../services/api';
 import '../assets/Voos.css';
 
 const Home: React.FC = () => {
     const user = useUser();
+    const [voos, setVoos] = useState<any[]>([]);
 
-    const [modalOpen, setModalOpen] = useState(false);
-    const [checkInDate, setCheckInDate] = useState('');
-    const [checkOutDate, setCheckOutDate] = useState('');
-    const [selectedOffer, setSelectedOffer] = useState<any>(null);
+    useEffect(() => {
+        const fetchVoos = async () => {
+            try {
+                const data = await listarVoos();
+                setVoos(data);
+            } catch (error) {
+                console.error('Erro ao buscar voos:', error);
+            }
+        };
 
-    const ofertas = [
-        { categoria: 'Voos', descricao: 'Passagens aéreas com até 40% de desconto!', imagem: 'https://media.staticontent.com/media/pictures/084fd283-6047-4a40-a119-0f64381377d2/300x200' },
-        { categoria: 'Hospedagem', descricao: 'Hotéis e resorts com tarifas especiais!', imagem: 'https://media.staticontent.com/media/pictures/668204fd-7f28-4e39-a244-b3c3d4ea32ff/300x200' },
-        { categoria: 'Aluguel de Carros', descricao: 'Diárias de aluguel com preços imbatíveis!', imagem: 'https://media.staticontent.com/media/pictures/084fd283-6047-4a40-a119-0f64381377d2/300x200' },
-        { categoria: 'Cruzeiros', descricao: 'Viagens incríveis pelos melhores destinos!', imagem: 'https://media.staticontent.com/media/pictures/668204fd-7f28-4e39-a244-b3c3d4ea32ff/300x200' },
-        { categoria: 'Pacotes', descricao: 'Pacotes completos para suas férias!', imagem: 'https://media.staticontent.com/media/pictures/084fd283-6047-4a40-a119-0f64381377d2/300x200' },
-    ];
-
-    const handleCloseModal = () => {
-        setModalOpen(false);
-        setCheckInDate('');
-        setCheckOutDate('');
-        setSelectedOffer(null);
-    };
-
-    const handleSelectOffer = (oferta: any) => {
-        setSelectedOffer(oferta);
-        setModalOpen(true);
-    };
+        fetchVoos();
+    }, []);
 
     return (
         <div className="voos-container">
-            <h1>Olá, {user.username ? user.username : 'Usuário'}!</h1>
-            <p>Confira as melhores ofertas de passagens aerias para você:</p>
+            <h1>Olá, {user.username || 'Usuário'}!</h1>
+            <p className='sub' >Confira os voos disponíveis:</p>
 
             <div className="cards-container">
-                {ofertas.map((oferta, index) => (
-                    <Card
+                {voos.map((voo, index) => (
+                    <CardVoo
                         key={index}
-                        imagem={oferta.imagem}
-                        titulo={oferta.categoria}
-                        descricao={oferta.descricao}
-                        onClick={() => handleSelectOffer(oferta)}
+                        imagem={voo.imagem}
+                        companhia={voo.companhia}
+                        numero_voo={voo.numero_voo}
+                        origem={voo.origem}
+                        destino={voo.destino}
+                        data_partida={voo.data_partida}
+                        hora_partida={voo.hora_partida}
+                        data_chegada={voo.data_chegada}
+                        hora_chegada={voo.hora_chegada}
+                        duracao={voo.duracao}
+                        preco={voo.preco}
+                        tipo_passagem={voo.tipo_passagem}
+                        classe={voo.classe}
+                        escalas={voo.escalas}
                     />
                 ))}
             </div>
-
-            {modalOpen && selectedOffer && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={handleCloseModal}>&times;</span>
-                        <h2>{selectedOffer.categoria}</h2>
-                        <label>
-                            Check-in:
-                            <input
-                                type="date"
-                                value={checkInDate}
-                                onChange={(e) => setCheckInDate(e.target.value)}
-                            />
-                        </label>
-                        <label>
-                            Check-out:
-                            <input
-                                type="date"
-                                value={checkOutDate}
-                                onChange={(e) => setCheckOutDate(e.target.value)}
-                            />
-                        </label>
-                        <p style={{ marginTop: '20px' }}>Oferta: {selectedOffer.descricao}</p>
-                        <button onClick={handleCloseModal}>Confirmar</button>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

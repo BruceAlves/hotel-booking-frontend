@@ -18,11 +18,23 @@
 }
 
 .card button {
-    padding: 10px;
-    background-color: #007bff;
+    margin-top: 4px;
+    padding: 6px 10px;
+    background-color: #0a7c0a;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    margin-top: auto;
+    font-weight: bold;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+}
+
+.card button:hover {
+    background-color: #fff;
+    color: #0a7c0a;
+    border: 1px solid #0a7c0a;
 }

@@ -1,7 +1,7 @@
 .navbar {
   width: 100%;
   height: 200px;
-  background-color: #003580;
+  background-color: #1c8de9;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -14,9 +14,9 @@
 }
 
 .menu button.logout {
-  border: 2px solid #ff4d4d;
-  background-color: rgba(255, 77, 77, 0.2);
-  color: #ff4d4d;
+  border: 2px solid #ffffff;
+  background-color: rgba(255, 77, 77, 0);
+  color: #ffffff;
   font-weight: bold;
   transition: 0.3s;
   position: absolute;
@@ -28,13 +28,13 @@
 
 /* Hover */
 .menu button.logout:hover {
-  background-color: #ff4d4d;
-  color: white;
+  background-color: #ffffff;
+  color: #1c8de9;
 }
 
 .texto {
   font-size: 24px;
-  color: #003580;
+  color: #1c8de9;
   background-color: white;
   width: fit-content;
   max-width: 90%;
@@ -66,23 +66,21 @@
 
 
 .logo-container {
-  background-color: white;
+  background-color: none;
   border-radius: 15px;
   padding: 10px 20px;
   display: inline-block;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  /* opcional para dar leve profundidade */
   position: absolute;
   top: 20px;
-  left: 20px;
-  height: 20px;
+  left: 0px;
+  height: 12px;
 }
 
 .logo {
   font-size: 22px;
   font-weight: bold;
-  color: rgba(53, 50, 50, 0.8);
-  margin-top: -2px;
+  color: white;
+  margin-top: -6px;
 }
 
 .usuario {
@@ -127,7 +125,7 @@
 
 .menu button:hover {
   background-color: white;
-  color: #003580;
+  color: #1c8de9;
 }
 
 .menu button svg {
@@ -157,7 +155,7 @@
 
 .auth button:hover {
   background-color: white;
-  color: #003580;
+  color: #1c8de9;
 }
 
 .auth span {
@@ -185,9 +183,9 @@
   .menu button.logout {
     position: static !important;
     margin: 0;
-    border: 2px solid #ff4d4d;
-    background-color: rgba(255, 77, 77, 0.2);
-    color: #ff4d4d;
+    border: 2px solid #ffffff;
+    background-color: rgb(255, 255, 255);
+    color: #1c8de9;
     width: 100%;
     justify-content: flex-start;
     align-items: center;
@@ -215,7 +213,7 @@
     left: 0;
     width: 100%;
     flex-direction: column;
-    background-color: #003580;
+    background-color: #1c8de9;
     align-items: center;
     padding: 10px 0;
     gap: 1px;

@@ -31,11 +31,11 @@ const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
       <div className="logo-container">
-        <div className="logo">Booking Easy</div>
+        <div className="logo">BookUp.com</div>
       </div>
 
       <div className="texto">
-        <BaggageClaim size={48} color="#003580" style={{ marginRight: '12px' }} />
+        <BaggageClaim size={48} color="#1c8de9" style={{ marginRight: '12px' }} />
         <div>
           <h3>Descubra lugares incríveis.</h3>
           <p>Viva experiências inesquecíveis.</p>

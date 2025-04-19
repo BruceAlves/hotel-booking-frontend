@@ -9,7 +9,7 @@
 
 .plane-icon {
     animation: takeoff 1.5s ease-in-out infinite;
-    color: #2b6cb0;
+    color: #1c8de9;
 }
 
 @keyframes takeoff {

@@ -1,0 +1,63 @@
+.card {
+    display: flex;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.img {
+    width: 220px;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info {
+    padding: 16px;
+    flex: 1;
+}
+
+.title {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.row {
+    margin: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.preco {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 1.1rem;
+    margin-top: 8px;
+}
+
+.Reservar {
+    margin-top: 12px;
+    padding: 10px 16px;
+    background: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.Reservar:hover {
+    background: #27ae60;
+}

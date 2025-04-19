@@ -1,36 +1,35 @@
-.hospedagem-container {
-    margin-top: 90px;
+.travelPackages-container {
+    margin-top: 200px;
     padding: 20px;
 }
 
-
-.hospedagem-cards-container {
+.travelPackages-cards-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 60px;
+    gap: 10px;
     justify-content: center;
     max-width: 1400px;
     margin: 0 auto;
 }
 
-.hospedagem-card {
-    border: 1px solid #ccc;
-    padding: 15px;
+.travelPackages-card {
+
+    padding: 10px;
     border-radius: 8px;
     text-align: center;
     width: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
     min-height: 280px;
 }
 
-.hospedagem-card img {
+
+.travelPackages-card img {
     width: 100%;
     border-radius: 8px;
 }
 
-.hospedagem-card button {
+.travelPackages-card button {
     padding: 10px;
     background-color: #007bff;
     color: #fff;
@@ -38,43 +37,16 @@
     border-radius: 5px;
     cursor: pointer;
     margin-top: auto;
-
 }
 
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+.sub {
+    font-size: 1.2rem;
+    margin-bottom: 3px;
+    color: #555;
 }
-
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-
-    position: relative;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 20px;
-}
-
 
 @media (max-width: 768px) {
-    .hospedagem-cards-container {
+    .travelPackages-cards-container {
         grid-template-columns: 1fr;
-
     }
 }

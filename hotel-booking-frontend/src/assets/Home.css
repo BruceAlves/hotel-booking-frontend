@@ -101,7 +101,7 @@ h2 {
 
 .card h3 {
     font-size: 20px;
-    margin-top: 10px;
+    color: #555;
     text-align: left;
 }
 
@@ -111,11 +111,11 @@ h2 {
     text-align: left;
 }
 
-.card button {
+.ver {
     margin-top: 10px;
     padding: 10px 15px;
     border: none;
-    background: #0071c2;
+    background: #2b7c2c;
     color: white;
     font-size: 16px;
     cursor: pointer;
@@ -124,5 +124,21 @@ h2 {
 }
 
 .card button:hover {
-    background: #005fa3;
+    background: #2b7c2c;
+}
+
+.cards-container p {
+    margin: 4px 0;
+    line-height: 1.4;
+}
+
+.cards-container .descricao-voo {
+    margin-top: 8px;
+    font-style: italic;
+    color: #444;
+}
+
+.sub-Voos {
+    margin-left: 12px;
+    margin-bottom: 2px;
 }

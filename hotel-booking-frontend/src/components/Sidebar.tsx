@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
       </div>
 
       <div className="texto">
-        <BaggageClaim size={48} color="#1c8de9" style={{ marginRight: '12px' }} />
+        <BaggageClaim className='icon-move' size={48} color="#002B5B" style={{ marginRight: '12px' }} />
         <div>
           <h3>Descubra lugares incríveis.</h3>
           <p>Viva experiências inesquecíveis.</p>

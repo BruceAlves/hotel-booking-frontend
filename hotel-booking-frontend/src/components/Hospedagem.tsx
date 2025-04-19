@@ -28,7 +28,7 @@ const Hospedagem: React.FC = () => {
                         descricao: hotel.descricao,
                         imagens,
                         preco: hotel.preco,
-                        estrelas: hotel.star || 0, // Assegurando que o campo 'star' seja usado como 'estrelas'
+                        estrelas: hotel.star || 0,
                     };
                 }));
 
@@ -61,7 +61,8 @@ const Hospedagem: React.FC = () => {
                         key={index}
                         imagem={oferta.imagens[0]}
                         titulo={oferta.name}
-                        estrelas={oferta.estrelas} // Passando 'estrelas' em vez de 'star'
+                        estrelas={oferta.estrelas}
+                        preco={oferta.preco}
                         descricao={`${oferta.descricao.slice(0, 200)}...`}
                         onClick={() => handleSelectOffer(oferta)}
                     />

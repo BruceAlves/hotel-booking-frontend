@@ -1,5 +1,6 @@
 import React from 'react';
 import '../assets/Card.css';
+import { Tag } from 'lucide-react';
 
 interface CardProps {
     imagem: string;
@@ -14,11 +15,19 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ imagem, titulo, descricao, preco, estrelas, categoria, onClick }) => {
     return (
         <div className="card">
-            <img src={imagem} alt={titulo} />
+            <img
+                src={imagem}
+                alt={titulo}
+                onError={(e) => {
+                    e.currentTarget.src = '/image.jpg';
+                }}
+            />
+
             <h3>{titulo}</h3>
-            {categoria && <p>{categoria}</p>} {/* Se existir, exibe a categoria */}
+
+            {categoria && <p className="categoria">{categoria}</p>}
+
             <p>{descricao}</p>
-            {preco !== undefined && <p>R$ {preco},00 por noite</p>}
 
             <p className="estrelas" style={{ textAlign: 'left' }}>
                 {Number.isFinite(estrelas) && estrelas > 0 ? (
@@ -29,6 +38,12 @@ const Card: React.FC<CardProps> = ({ imagem, titulo, descricao, preco, estrelas,
                     <span>Sem classificação</span>
                 )}
             </p>
+
+            {preco !== undefined && (
+                <p className="row preco">
+                    <Tag size={16} className="icon" /> R$ {preco.toFixed(2)}
+                </p>
+            )}
 
             <button onClick={onClick}>Reservar</button>
         </div>

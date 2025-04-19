@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useUser from '../hooks/useUser';
 import CardTravelPackages from '../components/CardTravelPackages';
 import { listarTravelPackages } from '../services/api';
-import '../assets/Cars.css'; // Pode manter, mas se quiser um mais adequado, renomeie para TravelPackages.css
+import '../assets/Cars.css';
 
 const TravelPackages: React.FC = () => {
     const user = useUser();

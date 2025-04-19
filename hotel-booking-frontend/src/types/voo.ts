@@ -1,4 +1,4 @@
-export interface Hotel {
+export interface Voo {
     id: number;
     companhia: string;
     numero_voo: string;

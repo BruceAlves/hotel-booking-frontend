@@ -12,7 +12,6 @@ import {
     Lock
 } from 'lucide-react';
 
-// Componente de Avaliação com Descrição
 const StarRatingWithDescription: React.FC<{ stars: number }> = ({ stars }) => {
     const starIcons = [...Array(5)].map((_, index) => (
         <Star
@@ -24,7 +23,6 @@ const StarRatingWithDescription: React.FC<{ stars: number }> = ({ stars }) => {
         />
     ));
 
-    // Componente para o Layout das Descrições
     const DescriptionWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
         <div
             style={{
@@ -38,7 +36,6 @@ const StarRatingWithDescription: React.FC<{ stars: number }> = ({ stars }) => {
         </div>
     );
 
-    // Função que retorna as descrições com base na avaliação
     const description = (stars: number) => {
         switch (stars) {
             case 1:
@@ -112,7 +109,6 @@ const StarRatingWithDescription: React.FC<{ stars: number }> = ({ stars }) => {
                 {description(stars)}
             </div>
 
-            {/* Estilos CSS embutidos */}
             <style>{`
         .star-rating-with-description {
           font-family: Arial, sans-serif;

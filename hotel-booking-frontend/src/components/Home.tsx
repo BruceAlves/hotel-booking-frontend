@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import useUser from '../hooks/useUser';
 import { listarImagens } from '../services/uploadToS3';
 import '../assets/Home.css';
-import { listarTravelPackagesOffer, listarAccomodationOffer } from '../services/api';
+import { listarTravelPackagesOffer, listarAccomodationOffer, listarCarsOffer } from '../services/api';
+import { Hotel } from '../types/hotel';
+import { Voo } from '../types/voo';
+import { Car } from '../types/Car';
+import CardCarro from '../components/CarCars';
+import Card from '../components/Card';
+import CardVoo from '../components/CardVoo';
 import {
-    Plane,
-    MapPin,
-    Clock,
-    Armchair,
-    PlaneTakeoff,
-    BedDouble, MessageSquare
+    BedDouble, TicketsPlane, CarFront
 } from 'lucide-react';
 import Loading from '../components/Loading';
 
@@ -17,12 +18,12 @@ import Loading from '../components/Loading';
 const Home: React.FC = () => {
     const user = useUser();
     const [destinos, setDestinos] = useState<{ nome: string; imagem: string }[]>([]);
-    const [ofertas, setOfertas] = useState<any[]>([]);
     const [ofertasHospedagens, setOfertasHospedagens] = useState<any[]>([]);
-    const [textoVisivel, setTextoVisivel] = useState<number | null>(null);
+    const [voos, setVoosOferta] = useState<any[]>([]);
+    const [cars, setCarsOferta] = useState<any[]>([]);
     const [carregando, setCarregando] = useState(true);
 
-    const ofertasMenorPreco = [...ofertas, ofertasHospedagens]
+    const ofertasMenorPreco = [...voos]
         .filter(o => o.preco !== undefined && !isNaN(o.preco))
         .sort((a, b) => a.preco - b.preco)
         .slice(0, 3);
@@ -32,16 +33,17 @@ const Home: React.FC = () => {
         .sort((a, b) => a.preco - b.preco)
         .slice(0, 3);
 
+    const ofertasMenorPrecoCars = [...cars]
+        .filter(o => o.preco_diaria !== undefined && !isNaN(o.preco_diaria))
+        .sort((a, b) => a.preco_diaria - b.preco_diaria)
+        .slice(0, 3);
+
 
     useEffect(() => {
         setCarregando(true);
         async function carregarImagens() {
             let imagensDestinos = await listarImagens('destinos/');
-            let imagensOfertas = await listarImagens('hospedagens/');
-
             imagensDestinos = imagensDestinos.filter(img => img.match(/\.(jpeg|jpg|png|webp)$/i));
-            imagensOfertas = imagensOfertas.filter(img => img.match(/\.(jpeg|jpg|png|webp|avif)$/i));
-
             const destinosData = [
                 { nome: 'New York', imagem: imagensDestinos.find(img => img.toLowerCase().includes('new_york')) || '/img/default.jpg' },
                 { nome: 'Las Vegas', imagem: imagensDestinos.find(img => img.toLowerCase().includes('lasvegas')) || '/img/default.jpg' },
@@ -51,11 +53,64 @@ const Home: React.FC = () => {
             ];
 
             try {
-                const data = await listarTravelPackagesOffer();
+                const hoteis: Hotel[] = await listarAccomodationOffer();
+                const voos: Voo[] = await listarTravelPackagesOffer();
+                const cars: Car[] = await listarCarsOffer();
 
-                const dataHospedagem = await listarAccomodationOffer();
-                setOfertas(data);
-                setOfertasHospedagens(dataHospedagem);
+                const ofertas = await Promise.all(hoteis.map(async (hotel: Hotel) => {
+                    const imagens = await listarImagens(hotel.pasta_imagem);
+                    return {
+                        name: hotel.nome,
+                        categoria: hotel.categoria,
+                        descricao: hotel.descricao,
+                        imagens,
+                        preco: hotel.preco,
+                        star: hotel.star || 0,
+                    };
+                }));
+
+                const ofertasVoos = await Promise.all(voos.map(async (voo: Voo) => {
+                    const imagens = await listarImagens(voo.pasta_imagem);
+                    return {
+                        companhia: voo.companhia,
+                        numero_voo: voo.numero_voo,
+                        origem: voo.origem,
+                        imagens,
+                        destino: voo.destino,
+                        data_partida: voo.data_partida,
+                        data_chegada: voo.data_chegada,
+                        duracao: voo.duracao,
+                        classe: voo.classe,
+                        preco: voo.preco,
+                        bagagem_incluida: voo.bagagem_incluida,
+                        escalas: voo.escalas,
+                        assento_incluso: voo.assento_incluso,
+                        tipo_aviao: voo.tipo_aviao,
+
+                    };
+                }));
+
+                const ofertasCars = await Promise.all(cars.map(async (car: Car) => {
+                    const imagens = await listarImagens(car.pasta_imagem);
+                    return {
+                        modelo: car.modelo,
+                        marca: car.marca,
+                        ano: car.ano,
+                        imagens,
+                        tipo: car.tipo,
+                        cor: car.cor,
+                        cambio: car.cambio,
+                        passageiros: car.passageiros,
+                        portas: car.portas,
+                        ar_condicionado: car.ar_condicionado,
+                        preco_diaria: car.preco_diaria,
+                        local_retirada: car.local_retirada,
+                    };
+                }));
+
+                setOfertasHospedagens(ofertas);
+                setVoosOferta(ofertasVoos);
+                setCarsOferta(ofertasCars);
             } catch (error) {
                 console.error("Erro ao buscar ofertas da API:", error);
             } finally {
@@ -66,10 +121,6 @@ const Home: React.FC = () => {
 
         carregarImagens();
     }, []);
-
-    const toggleTexto = (index: number) => {
-        setTextoVisivel(textoVisivel === index ? null : index);
-    };
 
     return carregando ? (
         <Loading />
@@ -106,56 +157,65 @@ const Home: React.FC = () => {
 
             <div className="ofertas-container">
                 <h2>Ofertas imperdíveis !</h2><br />
-                <h2 className='subs'><PlaneTakeoff size={20} className="icon" /> Voos</h2>
+                <h2 className='subs'><TicketsPlane size={20} className="icon" /> Voos</h2>
                 <div className="cards-container">
                     {ofertasMenorPreco.map((voo, index) => (
-                        <div key={index} className="card">
-                            <img src={voo.imagem} alt={voo.companhia} />
-                            <p className='companhia'><Plane size={16} className="icon" /> <strong>{voo.companhia}</strong></p>
-                            <p><MapPin size={16} className="icon" /> <strong>Origem:</strong> {voo.origem}</p>
-                            <p><MapPin size={16} className="icon" /> <strong>Destino:</strong> {voo.destino}</p>
-                            <p><Clock size={16} className="icon" /> <strong>Partida:</strong> {voo.data_partida} às {voo.hora_partida}</p>
-                            <p><Clock size={16} className="icon" /> <strong>Chegada:</strong> {voo.data_chegada} às {voo.hora_chegada}</p>
-                            <p><Armchair size={16} className="icon" /> <strong>Classe:</strong> {voo.classe}</p>
-
-                            <button className="btn-ver-detalhes" onClick={() => toggleTexto(index)}>
-                                Ver detalhes
-                            </button>
-                        </div>
+                        <CardVoo
+                            key={index}
+                            imagem={voo.imagem}
+                            companhia={voo.companhia}
+                            numero_voo={voo.numero_voo}
+                            origem={voo.origem}
+                            destino={voo.destino}
+                            data_partida={voo.data_partida}
+                            hora_partida={voo.hora_partida}
+                            data_chegada={voo.data_chegada}
+                            hora_chegada={voo.hora_chegada}
+                            duracao={voo.duracao}
+                            preco={voo.preco}
+                            tipo_passagem={voo.tipo_passagem}
+                            classe={voo.classe}
+                            escalas={voo.escalas}
+                        />
                     ))}
                 </div>
 
                 <h2 className='subs'><BedDouble size={20} className="icon" /> Hospedagens</h2>
                 <div className="cards-container">
                     {ofertasMenorPrecoHospedagem.map((hospedagem, index) => (
-                        <div key={index} className="card">
-                            <img src={hospedagem.imagem} alt={hospedagem.nome} />
+                        <Card
+                            key={index}
+                            imagem={hospedagem.imagens[0]}
+                            titulo={hospedagem.name}
+                            preco={hospedagem.preco}
+                            estrelas={hospedagem.star}
+                            descricao={`${hospedagem.descricao.slice(0, 200)}...`}
 
-                            <p className='companhia'>
-                                <strong><BedDouble size={16} className="icon" /> {hospedagem.nome}</strong>
-                            </p>
-
-                            <p>
-                                <MessageSquare size={14} className="icon" /> {hospedagem.descricao}
-                            </p>
-
-                            <p className="estrelas">
-                                {Number.isFinite(hospedagem.star) && hospedagem.star > 0 ? (
-                                    [...Array(Math.floor(hospedagem.star))].map((_, i) => (
-                                        <span key={i} style={{ color: '#FFD700', fontSize: '15px' }}>★</span>
-                                    ))
-                                ) : (
-                                    <span>Sem classificação</span>
-                                )}
-                            </p>
-
-                            <p><strong>R$ {hospedagem.preco}</strong></p>
-
-                            <button className="btn-ver-detalhes" onClick={() => toggleTexto(index)}>
-                                Ver detalhes
-                            </button>
-                        </div>
+                        />
                     ))}
+
+                </div>
+
+                <h2 className='subs'><CarFront size={20} className="icon" /> Alguel de carros</h2>
+                <div className="cards-container">
+                    {ofertasMenorPrecoCars.map((car, index) => (
+                        <CardCarro
+                            key={index}
+                            imagem={car.imagem}
+                            modelo={car.modelo}
+                            marca={car.marca}
+                            ano={car.ano}
+                            tipo={car.tipo}
+                            cor={car.cor}
+                            cambio={car.cambio}
+                            passageiros={car.passageiros}
+                            portas={car.portas}
+                            ar_condicionado={car.ar_condicionado}
+                            preco_diaria={car.preco_diaria}
+                            local_retirada={car.local_retirada}
+                        />
+                    ))}
+
                 </div>
             </div>
         </div>

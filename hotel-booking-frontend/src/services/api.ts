@@ -178,3 +178,26 @@ export const listarAccomodationOffer = async () => {
     throw error;
   }
 };
+
+export const listarCarsOffer = async () => {
+  try {
+    const response = await fetch(`http://localhost:5259/api/Cars/ofertas`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    const hoteisData = await response.json();
+    console.log('Dados dos Cars Offer:', hoteisData);
+
+    return hoteisData;
+  } catch (error) {
+    console.error('Erro ao buscar Cars Offer:', error);
+    throw error;
+  }
+};

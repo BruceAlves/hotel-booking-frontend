@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CreditCard, QrCode, Smartphone, Users } from 'lucide-react';
 import '../assets/Reservas.css';
+import StarRating from '../components/StarRating';
 
 const Reservas: React.FC = () => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -12,6 +13,7 @@ const Reservas: React.FC = () => {
         categoria: queryParams.get('categoria') ?? '',
         descricao: queryParams.get('descricao') ?? '',
         preco: Number(queryParams.get('preco')) || 0,
+        star: Number(queryParams.get('estrelas')) || 0,
         imagens: queryParams.get('imagens')?.split(',') || []
     };
 
@@ -29,11 +31,9 @@ const Reservas: React.FC = () => {
 
     const [imagemSelecionada, setImagemSelecionada] = useState(selectedOffer.imagens[0]);
 
-    // Função de validação dos campos
     const validarCampos = () => {
         let valid = true;
 
-        // Validar Check-in
         if (!checkInDate) {
             setCheckInError('Preencha a data de check-in.');
             valid = false;
@@ -41,7 +41,6 @@ const Reservas: React.FC = () => {
             setCheckInError('');
         }
 
-        // Validar Check-out
         if (!checkOutDate) {
             setCheckOutError('Preencha a data de check-out.');
             valid = false;
@@ -49,7 +48,6 @@ const Reservas: React.FC = () => {
             setCheckOutError('');
         }
 
-        // Validar Quantidade de Adultos
         if (quantityAdults < 1) {
             setQuantityAdultsError('Quantidade de adultos inválida.');
             valid = false;
@@ -57,7 +55,6 @@ const Reservas: React.FC = () => {
             setQuantityAdultsError('');
         }
 
-        // Validar Forma de Pagamento
         if (!formaPagamento) {
             setFormaPagamentoError('Selecione a forma de pagamento.');
             valid = false;
@@ -106,7 +103,7 @@ const Reservas: React.FC = () => {
             <h2 className="reservas-titulo">{selectedOffer.categoria}</h2>
 
             <div className="reserva-conteudo">
-                {/* Imagens à esquerda */}
+
                 <div className="reserva-info">
                     <img
                         src={imagemSelecionada}
@@ -126,7 +123,6 @@ const Reservas: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Formulário à direita */}
                 <div className="reserva-form">
                     <label>
                         Check-in:
@@ -216,11 +212,10 @@ const Reservas: React.FC = () => {
                     {errorMessage && <p className="erro-mensagem">{errorMessage}</p>}
                 </div>
             </div>
-
-            {/* Descrição abaixo da seção de imagens */}
             <div className="descricao-container">
+                <StarRating stars={selectedOffer.star} />
+                <p><strong>Preço por noite: R$</strong>{selectedOffer.preco.toFixed(2)}</p>
                 <p>{selectedOffer.descricao}</p>
-                <p>Preço por noite: R$ {selectedOffer.preco.toFixed(2)}</p>
             </div>
         </div>
     );

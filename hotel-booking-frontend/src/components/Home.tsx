@@ -2,27 +2,39 @@ import React, { useEffect, useState } from 'react';
 import useUser from '../hooks/useUser';
 import { listarImagens } from '../services/uploadToS3';
 import '../assets/Home.css';
-import { listarTravelPackagesOffer } from '../services/api';
+import { listarTravelPackagesOffer, listarAccomodationOffer } from '../services/api';
 import {
     Plane,
     MapPin,
     Clock,
     Armchair,
+    PlaneTakeoff,
+    BedDouble, MessageSquare
 } from 'lucide-react';
+import Loading from '../components/Loading';
 
 
 const Home: React.FC = () => {
     const user = useUser();
     const [destinos, setDestinos] = useState<{ nome: string; imagem: string }[]>([]);
     const [ofertas, setOfertas] = useState<any[]>([]);
-    const [textoVisivel, setTextoVisivel] = useState<number | null>(null); // controla o card que mostra o texto
-    // Ordena as ofertas pelo menor preço e pega só as 3 primeiras
-    const ofertasMenorPreco = [...ofertas]
-        .filter(o => o.preco !== undefined && !isNaN(o.preco)) // garante que o preço existe e é número
+    const [ofertasHospedagens, setOfertasHospedagens] = useState<any[]>([]);
+    const [textoVisivel, setTextoVisivel] = useState<number | null>(null);
+    const [carregando, setCarregando] = useState(true);
+
+    const ofertasMenorPreco = [...ofertas, ofertasHospedagens]
+        .filter(o => o.preco !== undefined && !isNaN(o.preco))
         .sort((a, b) => a.preco - b.preco)
         .slice(0, 3);
 
+    const ofertasMenorPrecoHospedagem = [...ofertasHospedagens]
+        .filter(o => o.preco !== undefined && !isNaN(o.preco))
+        .sort((a, b) => a.preco - b.preco)
+        .slice(0, 3);
+
+
     useEffect(() => {
+        setCarregando(true);
         async function carregarImagens() {
             let imagensDestinos = await listarImagens('destinos/');
             let imagensOfertas = await listarImagens('hospedagens/');
@@ -40,9 +52,14 @@ const Home: React.FC = () => {
 
             try {
                 const data = await listarTravelPackagesOffer();
+
+                const dataHospedagem = await listarAccomodationOffer();
                 setOfertas(data);
+                setOfertasHospedagens(dataHospedagem);
             } catch (error) {
                 console.error("Erro ao buscar ofertas da API:", error);
+            } finally {
+                setCarregando(false);
             }
             setDestinos(destinosData);
         }
@@ -54,7 +71,9 @@ const Home: React.FC = () => {
         setTextoVisivel(textoVisivel === index ? null : index);
     };
 
-    return (
+    return carregando ? (
+        <Loading />
+    ) : (
         <div className="home-container">
             {!user.username ? (
                 <h2>Bem-vindo! Faça login para acessar suas informações.</h2>
@@ -86,13 +105,13 @@ const Home: React.FC = () => {
             </div>
 
             <div className="ofertas-container">
-                <h2>Ofertas imperdíveis !</h2><br></br>
-                <h2 className='sub-Voos' ><Plane size={20} className="icon" /> Voos</h2>
+                <h2>Ofertas imperdíveis !</h2><br />
+                <h2 className='subs'><PlaneTakeoff size={20} className="icon" /> Voos</h2>
                 <div className="cards-container">
                     {ofertasMenorPreco.map((voo, index) => (
                         <div key={index} className="card">
                             <img src={voo.imagem} alt={voo.companhia} />
-                            <h3><Plane size={16} className="icon" /> {voo.companhia}</h3>
+                            <p className='companhia'><Plane size={16} className="icon" /> <strong>{voo.companhia}</strong></p>
                             <p><MapPin size={16} className="icon" /> <strong>Origem:</strong> {voo.origem}</p>
                             <p><MapPin size={16} className="icon" /> <strong>Destino:</strong> {voo.destino}</p>
                             <p><Clock size={16} className="icon" /> <strong>Partida:</strong> {voo.data_partida} às {voo.hora_partida}</p>
@@ -104,11 +123,44 @@ const Home: React.FC = () => {
                             </button>
                         </div>
                     ))}
+                </div>
 
+                <h2 className='subs'><BedDouble size={20} className="icon" /> Hospedagens</h2>
+                <div className="cards-container">
+                    {ofertasMenorPrecoHospedagem.map((hospedagem, index) => (
+                        <div key={index} className="card">
+                            <img src={hospedagem.imagem} alt={hospedagem.nome} />
+
+                            <p className='companhia'>
+                                <strong><BedDouble size={16} className="icon" /> {hospedagem.nome}</strong>
+                            </p>
+
+                            <p>
+                                <MessageSquare size={14} className="icon" /> {hospedagem.descricao}
+                            </p>
+
+                            <p className="estrelas">
+                                {Number.isFinite(hospedagem.star) && hospedagem.star > 0 ? (
+                                    [...Array(Math.floor(hospedagem.star))].map((_, i) => (
+                                        <span key={i} style={{ color: '#FFD700', fontSize: '15px' }}>★</span>
+                                    ))
+                                ) : (
+                                    <span>Sem classificação</span>
+                                )}
+                            </p>
+
+                            <p><strong>R$ {hospedagem.preco}</strong></p>
+
+                            <button className="btn-ver-detalhes" onClick={() => toggleTexto(index)}>
+                                Ver detalhes
+                            </button>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
     );
+
 };
 
 export default Home;

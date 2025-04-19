@@ -5,4 +5,5 @@ export interface Hotel {
     descricao: string;
     pasta_imagem: string;
     preco: number;
+    star: number;
 }

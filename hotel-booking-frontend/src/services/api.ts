@@ -155,3 +155,26 @@ export const listarTravelPackagesOffer = async () => {
     throw error;
   }
 };
+
+export const listarAccomodationOffer = async () => {
+  try {
+    const response = await fetch(`http://localhost:5259/api/Accommodation/ofertas`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    const hoteisData = await response.json();
+    console.log('Dados dos Accommodation Offer:', hoteisData);
+
+    return hoteisData;
+  } catch (error) {
+    console.error('Erro ao buscar Accommodation Offer:', error);
+    throw error;
+  }
+};

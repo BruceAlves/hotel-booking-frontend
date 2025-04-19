@@ -1,0 +1,40 @@
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.plane-icon {
+    animation: takeoff 1.5s ease-in-out infinite;
+    color: #2b6cb0;
+}
+
+@keyframes takeoff {
+    0% {
+        transform: translateX(0) translateY(0) rotate(0deg);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateX(30px) translateY(-20px) rotate(-10deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(60px) translateY(-40px) rotate(-20deg);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}

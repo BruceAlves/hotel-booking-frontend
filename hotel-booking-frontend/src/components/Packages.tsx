@@ -3,25 +3,50 @@ import useUser from '../hooks/useUser';
 import CardTravelPackages from '../components/CardTravelPackages';
 import { listarTravelPackages } from '../services/api';
 import '../assets/Cars.css';
+import { TravelPackage } from '../types/TravelPackages';
+import { listarImagens } from '../services/uploadToS3';
+import Loading from '../components/Loading';
 
 const TravelPackages: React.FC = () => {
     const user = useUser();
     const [travelPackages, setTravelPackages] = useState<any[]>([]);
+    const [carregando, setCarregando] = useState(true);
 
     useEffect(() => {
+        setCarregando(true);
         const fetchTravelPackages = async () => {
             try {
-                const data = await listarTravelPackages();
-                setTravelPackages(data);
+                const travelPackages: TravelPackage[] = await listarTravelPackages();
+
+                const ofertas = await Promise.all(travelPackages.map(async (travelPackage: TravelPackage) => {
+                    const imagens = await listarImagens(travelPackage.pasta_imagem);
+                    return {
+                        nomePacote: travelPackage.nomePacote,
+                        destino: travelPackage.destino,
+                        imagens,
+                        descricao: travelPackage.descricao,
+                        dias: travelPackage.dias,
+                        preco: travelPackage.preco,
+                        inclui: travelPackage.inclui,
+                        dataSaida: travelPackage.dataSaida,
+                        dataRetorno: travelPackage.dataRetorno,
+                    };
+                }));
+
+                setTravelPackages(ofertas);
             } catch (error) {
                 console.error('Erro ao buscar TravelPackages:', error);
+            } finally {
+                setCarregando(false);
             }
         };
 
         fetchTravelPackages();
     }, []);
 
-    return (
+    return carregando ? (
+        <Loading />
+    ) : (
         <div className="cars-container">
             <h1>Olá, {user.username || 'Viajante'}!</h1>
             <p className='sub'>Confira os pacotes de viagens disponíveis:</p>

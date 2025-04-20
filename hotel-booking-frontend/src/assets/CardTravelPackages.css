@@ -39,6 +39,12 @@
     gap: 6px;
 }
 
+.incluso {
+    white-space: normal;
+    word-break: break-word;
+    flex-wrap: wrap;
+}
+
 .preco {
     font-weight: bold;
     color: #2c3e50;

@@ -2,15 +2,18 @@ import React, { useEffect, useState } from 'react';
 import useUser from '../hooks/useUser';
 import { listarImagens } from '../services/uploadToS3';
 import '../assets/Home.css';
-import { listarTravelPackagesOffer, listarAccomodationOffer, listarCarsOffer } from '../services/api';
+import { listarTravelPackagesOffer, listarAccomodationOffer, listarCarsOffer, listarFlightOffer } from '../services/api';
 import { Hotel } from '../types/hotel';
 import { Voo } from '../types/voo';
 import { Car } from '../types/Car';
 import CardCarro from '../components/CarCars';
 import Card from '../components/Card';
 import CardVoo from '../components/CardVoo';
+import CardTravelPackages from '../components/CardTravelPackages';
+import { TravelPackage } from '../types/TravelPackages';
+
 import {
-    BedDouble, TicketsPlane, CarFront
+    BedDouble, TicketsPlane, CarFront, PackageOpen
 } from 'lucide-react';
 import Loading from '../components/Loading';
 
@@ -21,6 +24,7 @@ const Home: React.FC = () => {
     const [ofertasHospedagens, setOfertasHospedagens] = useState<any[]>([]);
     const [voos, setVoosOferta] = useState<any[]>([]);
     const [cars, setCarsOferta] = useState<any[]>([]);
+    const [travelPackages, setTravelPackagesOferta] = useState<any[]>([]);
     const [carregando, setCarregando] = useState(true);
 
     const ofertasMenorPreco = [...voos]
@@ -39,6 +43,12 @@ const Home: React.FC = () => {
         .slice(0, 3);
 
 
+    const ofertasMenorPrecoTravelPackages = [...travelPackages]
+        .filter(o => o.preco !== undefined && !isNaN(o.preco))
+        .sort((a, b) => a.preco - b.preco)
+        .slice(0, 3);
+
+
     useEffect(() => {
         setCarregando(true);
         async function carregarImagens() {
@@ -54,8 +64,9 @@ const Home: React.FC = () => {
 
             try {
                 const hoteis: Hotel[] = await listarAccomodationOffer();
-                const voos: Voo[] = await listarTravelPackagesOffer();
+                const voos: Voo[] = await listarFlightOffer();
                 const cars: Car[] = await listarCarsOffer();
+                const travelPackages: TravelPackage[] = await listarTravelPackagesOffer();
 
                 const ofertas = await Promise.all(hoteis.map(async (hotel: Hotel) => {
                     const imagens = await listarImagens(hotel.pasta_imagem);
@@ -108,9 +119,25 @@ const Home: React.FC = () => {
                     };
                 }));
 
+                const TravelPackages = await Promise.all(travelPackages.map(async (travelPackage: TravelPackage) => {
+                    const imagens = await listarImagens(travelPackage.pasta_imagem);
+                    return {
+                        nomePacote: travelPackage.nomePacote,
+                        destino: travelPackage.destino,
+                        imagens,
+                        descricao: travelPackage.descricao,
+                        dias: travelPackage.dias,
+                        preco: travelPackage.preco,
+                        inclui: travelPackage.inclui,
+                        dataSaida: travelPackage.dataSaida,
+                        dataRetorno: travelPackage.dataRetorno,
+                    };
+                }));
+
                 setOfertasHospedagens(ofertas);
                 setVoosOferta(ofertasVoos);
                 setCarsOferta(ofertasCars);
+                setTravelPackagesOferta(TravelPackages);
             } catch (error) {
                 console.error("Erro ao buscar ofertas da API:", error);
             } finally {
@@ -213,6 +240,26 @@ const Home: React.FC = () => {
                             ar_condicionado={car.ar_condicionado}
                             preco_diaria={car.preco_diaria}
                             local_retirada={car.local_retirada}
+                        />
+                    ))}
+
+                </div>
+
+                <h2 className='subs'><PackageOpen size={20} className="icon" /> Pacotes de viagens</h2>
+                <div className="cards-container">
+                    {ofertasMenorPrecoTravelPackages.map((travelPackages, index) => (
+                        <CardTravelPackages
+                            key={index}
+                            imagem={travelPackages.imagem}
+                            nomePacote={travelPackages.nomePacote}
+                            origem={travelPackages.origem}
+                            destino={travelPackages.destino}
+                            dataSaida={travelPackages.dataSaida}
+                            dataRetorno={travelPackages.dataRetorno}
+                            duracao={travelPackages.duracao}
+                            inclui={travelPackages.inclui}
+                            transporte={travelPackages.transporte}
+                            preco={travelPackages.preco}
                         />
                     ))}
 

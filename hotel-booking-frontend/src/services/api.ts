@@ -133,7 +133,7 @@ export const listarTravelPackages = async () => {
 };
 
 
-export const listarTravelPackagesOffer = async () => {
+export const listarFlightOffer = async () => {
   try {
     const response = await fetch(`http://localhost:5259/api/Flight/ofertas`, {
       method: 'GET',
@@ -198,6 +198,29 @@ export const listarCarsOffer = async () => {
     return hoteisData;
   } catch (error) {
     console.error('Erro ao buscar Cars Offer:', error);
+    throw error;
+  }
+};
+
+export const listarTravelPackagesOffer = async () => {
+  try {
+    const response = await fetch(`http://localhost:5259/api/TravelPackages/ofertas`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erro HTTP: ${response.status}`);
+    }
+
+    const hoteisData = await response.json();
+    console.log('Dados dos TravelPackages Offer:', hoteisData);
+
+    return hoteisData;
+  } catch (error) {
+    console.error('Erro ao buscar TravelPackages Offer:', error);
     throw error;
   }
 };

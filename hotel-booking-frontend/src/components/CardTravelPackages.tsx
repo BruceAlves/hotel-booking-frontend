@@ -42,7 +42,7 @@ const CardPacoteViagem: React.FC<CardPacoteProps> = ({
                 <p className="row"><CalendarDays size={16} className="icon" /> <strong>Saída:</strong> {dataSaida}</p>
                 <p className="row"><CalendarDays size={16} className="icon" /> <strong>Retorno:</strong> {dataRetorno}</p>
 
-                <p className="row"><Hotel size={16} className="icon" /> <strong>Incluso:</strong> {inclui}</p>
+                <p className="row incluso"><Hotel size={16} className="icon" /> <strong>Incluso:</strong> {inclui}</p>
 
                 <p className="row preco"><Tag size={16} className="icon" /> R$ {preco.toFixed(2)}</p>
 

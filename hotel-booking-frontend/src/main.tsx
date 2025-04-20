@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store/store';
-
+import Footer from './components/Footer';
 import Login from './components/Login';
 import Home from './components/Home';
 import Register from './components/Register';
@@ -16,7 +16,6 @@ import Packages from './components/Packages';
 import Reservas from './components/Reservas';
 import Payment from './components/Payment';
 
-// Componente que controla a exibição da Navbar
 function AppWithNavbar() {
     const location = useLocation();
     const hideNavbar = ['/login', '/register'].includes(location.pathname.toLowerCase());
@@ -24,6 +23,7 @@ function AppWithNavbar() {
     return (
         <>
             {!hideNavbar && <Navbar />}
+
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
@@ -36,6 +36,8 @@ function AppWithNavbar() {
                 <Route path="/reservas" element={<PrivateRoute><Reservas /></PrivateRoute>} />
                 <Route path="/pagamento" element={<PrivateRoute><Payment /></PrivateRoute>} />
             </Routes>
+
+            {!hideNavbar && <Footer />}
         </>
     );
 }

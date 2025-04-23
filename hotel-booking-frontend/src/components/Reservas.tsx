@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CreditCard, QrCode, Smartphone, Users } from 'lucide-react';
+import { CreditCard, QrCode, Smartphone, Users, Baby, Tag } from 'lucide-react';
 import '../assets/Reservas.css';
 import StarRating from '../components/StarRating';
 
@@ -10,7 +10,7 @@ const Reservas: React.FC = () => {
     const navigate = useNavigate();
 
     const selectedOffer = {
-        categoria: queryParams.get('categoria') ?? '',
+        categoria: queryParams.get('componente') ?? '',
         descricao: queryParams.get('descricao') ?? '',
         preco: Number(queryParams.get('preco')) || 0,
         star: Number(queryParams.get('estrelas')) || 0,
@@ -65,15 +65,33 @@ const Reservas: React.FC = () => {
         return valid;
     };
 
-    useEffect(() => {
-        if (checkInDate && checkOutDate) {
+    const calculateTotalCost = () => {
+
+        if (checkInDate && checkOutDate && selectedOffer) {
             const checkIn = new Date(checkInDate);
             const checkOut = new Date(checkOutDate);
-            const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 3600 * 24));
 
-            if (nights > 0) {
-                const cost = nights * selectedOffer.preco * (selectedOffer.categoria === 'Hospedagem' ? (quantityAdults + quantityChildren * 0.5) : 1);
-                setTotalCost(cost);
+            if (!isNaN(checkIn.getTime()) && !isNaN(checkOut.getTime()) && checkOut > checkIn) {
+
+                const nights = Math.ceil(
+                    (checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24)
+                );
+
+                const categoriaLower = selectedOffer.categoria?.toLowerCase();
+                const adults = quantityAdults || 0;
+                const children = quantityChildren || 0;
+
+                let custo = 0;
+
+                if (categoriaLower === 'hospedagem') {
+                    const fator = adults + children * 0.5;
+
+                    custo = nights * selectedOffer.preco * fator;
+                } else {
+                    custo = nights * selectedOffer.preco;
+                }
+
+                setTotalCost(custo);
                 setErrorMessage('');
             } else {
                 setTotalCost(0);
@@ -81,8 +99,14 @@ const Reservas: React.FC = () => {
             }
         } else {
             setTotalCost(0);
+            setErrorMessage('');
         }
-    }, [checkInDate, checkOutDate, selectedOffer, quantityAdults, quantityChildren]);
+    };
+
+
+    useEffect(() => {
+        calculateTotalCost();
+    }, [checkInDate, checkOutDate, quantityAdults, quantityChildren]);
 
     const handleConfirmarReserva = () => {
         if (validarCampos()) {
@@ -103,7 +127,6 @@ const Reservas: React.FC = () => {
             <h2 className="reservas-titulo">{selectedOffer.categoria}</h2>
 
             <div className="reserva-conteudo">
-
                 <div className="reserva-info">
                     <img
                         src={imagemSelecionada}
@@ -163,7 +186,7 @@ const Reservas: React.FC = () => {
                         </div>
                         <div className="campo-quantidade">
                             <label>
-                                <Users size={24} style={{ marginRight: '8px' }} />
+                                <Baby size={24} style={{ marginRight: '8px' }} />
                                 Crianças:
                                 <input
                                     type="number"
@@ -177,7 +200,6 @@ const Reservas: React.FC = () => {
                     </div>
 
                     <div className="formas-pagamento">
-
                         <div className="opcoes">
                             <span
                                 className={`opcao-pagamento ${formaPagamento === 'Pix' ? 'selecionado' : ''}`}
@@ -206,15 +228,15 @@ const Reservas: React.FC = () => {
                         {formaPagamentoError && <p className="erro-mensagem">{formaPagamentoError}</p>}
                     </div>
 
-
                     <p style={{ marginTop: '20px' }}>Custo total: R$ {totalCost.toFixed(2)}</p>
                     <button onClick={handleConfirmarReserva}>Confirmar Reserva</button>
                     {errorMessage && <p className="erro-mensagem">{errorMessage}</p>}
                 </div>
             </div>
+
             <div className="descricao-container">
                 <StarRating stars={selectedOffer.star} />
-                <p><strong>Preço por noite: R$</strong>{selectedOffer.preco.toFixed(2)}</p>
+                <p><strong><Tag size={16} className="icon" /> Preço por noite: R$</strong>{selectedOffer.preco.toFixed(2)}</p>
                 <p>{selectedOffer.descricao}</p>
             </div>
         </div>

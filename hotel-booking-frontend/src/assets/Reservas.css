@@ -185,3 +185,11 @@
     text-align: left;
 
 }
+
+.reservar {
+    background-color: #2b7c2c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

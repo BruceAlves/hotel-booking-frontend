@@ -44,7 +44,8 @@ const Hospedagem: React.FC = () => {
     }, []);
 
     const handleSelectOffer = (oferta: any) => {
-        const url = `/reservas?categoria=${encodeURIComponent(oferta.name)}&descricao=${encodeURIComponent(oferta.descricao)}&preco=${oferta.preco}&imagens=${encodeURIComponent(oferta.imagens.join(','))}&estrelas=${oferta.estrelas}`;
+        const componente = "hospedagem";
+        const url = `/reservas?componente=${componente}&descricao=${encodeURIComponent(oferta.descricao)}&preco=${oferta.preco}&imagens=${encodeURIComponent(oferta.imagens.join(','))}&estrelas=${oferta.estrelas}`;
         window.open(url, '_blank', 'noopener,noreferrer');
     };
 
